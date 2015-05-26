@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:jsp="http://java.sun.com/JSP/Page" 
+     xmlns:c="http://java.sun.com/jsp/jstl/core" 
+     xmlns:spring="http://www.springframework.org/tags"
+     xmlns:form="http://www.springframework.org/tags/form"
+     version="2.0">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <jsp:output omit-xml-declaration="yes"/>
+
+    <spring:message code="label_customer_new" var="labelCustomerNew"/>
+    <spring:message code="label_customer_update" var="labelCustomerUpdate"/>
+    <spring:message code="label_customer_first_name" var="labelCustomerFirstName"/>
+    <spring:message code="label_customer_last_name" var="labelCustomerLastName"/>
+    <spring:message code="label_customer_birth_date" var="labelCustomerBirthDate"/>
+  
+    
+    <spring:eval expression="customer.id == null ? labelCustomerNew:labelCustomerUpdate" var="formTitle"/>
+
+    <script type="text/javascript">
+    $(function(){ 
+        $('#dateOfBirth').datepicker({ 
+            dateFormat: 'yy-mm-dd',
+            changeYear: true
+        });
+        
+    });
+    </script>
+
+    <h1>${formTitle}</h1>
+
+    <div id="customerUpdate">
+    <form:form modelAttribute="customer" id="customerUpdateForm" method="post" enctype="multipart/form-data">
+
+        <c:if test="${not empty message}">
+            <div id="message" class="${message.type}">${message.message}</div>
+        </c:if>
+
+        <form:label path="firstName">
+            ${labelCustomerFirstName}* 
+        </form:label>
+        <form:input path="firstName" />
+        <div>
+            <form:errors path="firstName" cssClass="error" />
+        </div>
+        <p/>
+
+        <form:label path="lastName">
+            ${labelCustomerLastName}* 
+        </form:label>
+        <form:input path="lastName" />
+        <div>
+            <form:errors path="lastName" cssClass="error" />
+        </div>
+        <p/>    
+
+        <form:label path="dateOfBirth">
+            ${labelCustomerBirthDate}
+        </form:label>
+        <form:input path="dateOfBirth" id="dateOfBirth"/>    
+        <div>
+            <form:errors path="dateOfBirth" cssClass="error" />
+        </div>        
+        <p/>
+        <!-- 
+        <form:hidden path="version" />
+         -->
+        <button type="submit" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only">
+            <span class="ui-button-text">Save</span>
+        </button> 
+        <button type="reset" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only">
+            <span class="ui-button-text">Reset</span>
+        </button>           
+                      
+    </form:form>   
+    </div>
+
+</div>
