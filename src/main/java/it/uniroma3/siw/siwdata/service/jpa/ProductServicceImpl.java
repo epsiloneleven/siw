@@ -3,6 +3,8 @@ package it.uniroma3.siw.siwdata.service.jpa;
 import it.uniroma3.siw.siwdata.domain.Product;
 import it.uniroma3.siw.siwdata.service.ProductService;
 
+import java.util.List;
+
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
@@ -51,6 +53,13 @@ public class ProductServicceImpl implements ProductService {
 		TypedQuery<Product> query = em.createNamedQuery("Product.findById", Product.class);
 		query.setParameter("id", id);
 		return query.getSingleResult();
+	}
+	
+	
+	@Transactional(readOnly=true)
+	public List<Product> findAll() {
+		List<Product> products = em.createNamedQuery("Product.findAllProducts", Product.class).getResultList();
+		return products;
 	}
 
 }

@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:jsp="http://java.sun.com/JSP/Page" 
+     xmlns:c="http://java.sun.com/jsp/jstl/core"  
+     xmlns:spring="http://www.springframework.org/tags"
+     xmlns:form="http://www.springframework.org/tags/form"
+     xmlns:joda="http://www.joda.org/joda/time/tags"
+     version="2.0">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <jsp:output omit-xml-declaration="yes"/>
+
+    <spring:message code="label_product_info" var="labelProductInfo"/>
+    <spring:message code="label_product_name" var="labelProductName"/>
+    <spring:message code="label_product_description" var="labelProductDescription"/>
+    <spring:message code="label_product_price" var="labelProductPrice"/>
+        <spring:message code="label_product_code" var="labelProductCode"/>
+    
+    <spring:message code="label_product_instock" var="labelProductInStock"/>
+    <spring:message code="label_product_update" var="labelProductUpdate"/>
+ 	<spring:url value="/products" var="editProductUrl"/>
+
+    <h1>${labelProductInfo}</h1>
+
+    <div id="productInfo">
+
+        <c:if test="${not empty message}">
+            <div id="message" class="${message.type}">${message.message}</div>
+        </c:if>
+
+        <table>
+            <tr>
+                <td>${labelProductName}</td>
+                <td>${product.name}</td>
+            </tr>
+            <tr>
+                <td>${labelProductDescription}</td>
+                <td>${product.description}</td>
+            </tr>   
+            <tr>
+                <td>${labelProductPrice}</td>
+                <td>${product.price}</td>
+            </tr>
+            <tr>
+                <td>${labelProductDescription}</td>
+                <td>${product.description}</td>
+            </tr>
+             <tr>
+                <td>${labelProductCode}</td>
+                <td>${product.code}</td>
+            </tr>
+            <tr>
+                <td>${labelProductInStock}</td>
+                <td>${product.inStock}</td>
+            </tr>
+                                                                                                                  
+        </table>         
+       
+        <a href="${editProductUrl}/${product.id}?form">${labelProductUpdate}</a>     
+        <form:form modelAttribute="product" id="productDeleteForm" method="delete" enctype="multipart/form-data">
+        	<form:hidden path="id" />
+        		<button type="submit" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" onClick="return confirm('sure?')">
+            		<span class="ui-button-text">Delete</span>
+        		</button>          
+    	</form:form>    
+                      
+    </div>
+
+</div>

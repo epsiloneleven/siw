@@ -147,7 +147,7 @@ final Logger logger = LoggerFactory.getLogger(CustomerController.class);
 		return "customers/create";
 	}
 	@RequestMapping(params="form" ,method = RequestMethod.DELETE)
-	public String dseleteCustomer(@PathVariable Long customerId) {
+	public String deleteCustomer(@PathVariable Long customerId) {
 		Customer customer =customerService.findById((Long)customerId);
 		customerService.delete(customer);
 	    return "redirect:/customers/";

@@ -2,6 +2,8 @@ package it.uniroma3.siw.siwdata.service;
 
 import it.uniroma3.siw.siwdata.domain.Product;
 
+import java.util.List;
+
 public interface ProductService {
 
 	// Insert or update a contact	
@@ -12,5 +14,5 @@ public interface ProductService {
 		
 		public Product findById(Long id);
 	
-	
+		public List<Product> findAll();
 }

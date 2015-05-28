@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:jsp="http://java.sun.com/JSP/Page" 
+     xmlns:c="http://java.sun.com/jsp/jstl/core" 
+     xmlns:spring="http://www.springframework.org/tags"
+     xmlns:form="http://www.springframework.org/tags/form"
+     version="2.0">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <jsp:output omit-xml-declaration="yes"/>
+
+    <spring:message code="label_product_new" var="labelProductNew"/>
+    <spring:message code="label_product_update" var="labelProductUpdate"/>
+    <spring:message code="label_product_name" var="labelProductName"/>
+    <spring:message code="label_product_description" var="labelProductDescription"/>
+    <spring:message code="label_product_price" var="labelProductPrice"/>
+    <spring:message code="label_product_code" var="labelProductCode"/>
+  	<spring:message code="label_product_instock" var="labelProductInStock"/>
+  
+    
+    <spring:eval expression="product.id == null ? labelProductNew:labelProductUpdate" var="formTitle"/>
+
+    <h1>${formTitle}</h1>
+
+    <div id="productUpdate">
+    <form:form modelAttribute="product" id="productUpdateForm" method="post" enctype="multipart/form-data">
+
+        <c:if test="${not empty message}">
+            <div id="message" class="${message.type}">${message.message}</div>
+        </c:if>
+
+        <form:label path="name">
+            ${labelProductName}* 
+        </form:label>
+        <form:input path="name" />
+        <div>
+            <form:errors path="name" cssClass="error" />
+        </div>
+        <p/>
+
+        <form:label path="description">
+            ${labelProductDescription}* 
+        </form:label>
+        <form:input path="description" />
+        <div>
+            <form:errors path="description" cssClass="error" />
+        </div>
+        <p/>    
+
+        <form:label path="price">
+            ${labelProductPrice}
+        </form:label>
+        <form:input path="price" id="price"/>    
+        <div>
+            <form:errors path="price" cssClass="error" />
+        </div>
+        
+          <form:label path="code">
+            ${labelProductCode}
+        </form:label>
+        <form:input path="code" id="code"/>    
+        <div>
+            <form:errors path="code" cssClass="error" />
+        </div>
+        
+        <form:label path="inStock">
+            ${labelProductInStock}
+        </form:label>
+        <form:input path="inStock" id="inStock"/>    
+        <div>
+            <form:errors path="inStock" cssClass="error" />
+        </div>                
+        <p/>
+         
+        <form:hidden path="id" />
+        
+        <button type="submit" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only">
+            <span class="ui-button-text">Save</span>
+        </button> 
+        <button type="reset" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only">
+            <span class="ui-button-text">Reset</span>
+        </button>           
+                      
+    </form:form>   
+    </div>
+
+</div>
