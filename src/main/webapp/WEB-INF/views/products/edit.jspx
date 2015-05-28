@@ -15,7 +15,10 @@
     <spring:message code="label_product_code" var="labelProductCode"/>
   	<spring:message code="label_product_instock" var="labelProductInStock"/>
   
-    
+    <spring:url value="/resources/ckeditor/ckeditor.js" var="ckeditor_url" />
+	<spring:url value="/resources/ckeditor/adapters/jquery.js" var="ckeditor_jquery_url" /> 
+	<script type="text/javascript" src="${ckeditor_url}"><jsp:text/></script>
+	<script type="text/javascript" src="${ckeditor_jquery_url}"><jsp:text/></script>
     <spring:eval expression="product.id == null ? labelProductNew:labelProductUpdate" var="formTitle"/>
 
     <h1>${formTitle}</h1>
@@ -27,6 +30,13 @@
             <div id="message" class="${message.type}">${message.message}</div>
         </c:if>
 
+		<script type="text/javascript">
+		$(function() {
+			$("#description").ckeditor( {
+				toolbar : 'Basic', uiColor : '#CCCCCC'
+			} );
+		});
+		</script>
         <form:label path="name">
             ${labelProductName}* 
         </form:label>
@@ -52,7 +62,7 @@
         <div>
             <form:errors path="price" cssClass="error" />
         </div>
-        
+        <p/>  
           <form:label path="code">
             ${labelProductCode}
         </form:label>
@@ -60,7 +70,7 @@
         <div>
             <form:errors path="code" cssClass="error" />
         </div>
-        
+         <p/>  
         <form:label path="inStock">
             ${labelProductInStock}
         </form:label>

@@ -15,7 +15,7 @@
 </definition>
 
 <definition extends="default" name="products/create"> 
-	<put-attribute name="body" value="/WEB-INF/views/producs/edit.jspx" /> 
+	<put-attribute name="body" value="/WEB-INF/views/products/edit.jspx" /> 
 </definition>
 
 
