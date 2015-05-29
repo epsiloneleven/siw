@@ -17,7 +17,7 @@
     <spring:message code="label_product_instock" var="labelProductInStock"/>
     <spring:message code="label_product_update" var="labelProductUpdate"/>
  	<spring:url value="/products" var="editProductUrl"/>
-
+	
     <h1>${labelProductInfo}</h1>
 
     <div id="productInfo">
@@ -60,8 +60,30 @@
         		<button type="submit" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" onClick="return confirm('sure?')">
             		<span class="ui-button-text">Delete</span>
         		</button>          
-    	</form:form>    
-                      
+    	</form:form>
+    	
+    	<form action="/siw-web/orders/" method="POST" >
+    	<input type="hidden" name="productId" value='${product.id}'/>
+    	<select name="productQuantity"  id="productQuantity" class="a-native-dropdown">
+            			<option value="1" selected="">1
+                        </option>
+                        <option value="2">2
+                        </option>
+                        <option value="3">3
+                        </option>        
+                        <option value="4">4
+                        </option>       
+                        <option value="5">5
+                        </option>
+                        <option value="6">6
+                        </option>
+                        <option value="7">7
+                        </option>
+        </select>
+        <button type="submit" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" onClick="return confirm('sure?')">
+            		<span class="ui-button-text">Add To Cart</span>
+        		</button>      
+        </form>            
     </div>
 
 </div>

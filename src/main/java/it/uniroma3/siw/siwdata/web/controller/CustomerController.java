@@ -16,6 +16,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -50,6 +51,7 @@ final Logger logger = LoggerFactory.getLogger(CustomerController.class);
 	 * Retrieves all customers and then injects the model in
 	 * the "list" view.
 	 */
+	@PreAuthorize("isAuthenticated()")
 	@RequestMapping(method = RequestMethod.GET)
 	public String list(Model uiModel) {
 		logger.info("Listing customers");	
@@ -65,6 +67,7 @@ final Logger logger = LoggerFactory.getLogger(CustomerController.class);
 	 * Retrieves customer by Id and then injects the model in
 	 * the "show" view.
 	 */
+	@PreAuthorize("isAuthenticated()")
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET) 
 	public String show(@PathVariable("id") Long id, Model uiModel) {
 		
@@ -90,6 +93,7 @@ final Logger logger = LoggerFactory.getLogger(CustomerController.class);
 	 * In Spring MVC attributes are saved temporarily before the redirect (typically in the session) 
 	 * to be made available to the request after the redirect and removed immediately.
 	 */
+	@PreAuthorize("isAuthenticated()")
 	@RequestMapping(value = "/{id}", params = "form", method = RequestMethod.POST)
 	public String update(@Valid Customer customer, BindingResult bindingResult, 
 						Model uiModel, HttpServletRequest httpServletRequest, 
@@ -110,11 +114,15 @@ final Logger logger = LoggerFactory.getLogger(CustomerController.class);
 	 * which will display the edit customer view.
 	 * That is, do nothing if form is sent through HTTP:GET
 	 */
+	
+	@PreAuthorize("isAuthenticated()")
 	@RequestMapping(value = "/{id}", params = "form", method = RequestMethod.GET) 
 	public String updateForm(@PathVariable("id") Long id, Model uiModel) {
 		uiModel.addAttribute("customer", customerService.findById(id));
 		return "customers/update"; 
 	}
+	
+	@PreAuthorize("isAuthenticated()")
 	@RequestMapping(value = "/{id}", method=RequestMethod.DELETE)
 	public String delete(@PathVariable("id") Long id,Model uiModel,
 			HttpServletRequest httpServletRequest, RedirectAttributes redirectAttributes, Locale locale) {
@@ -125,6 +133,7 @@ final Logger logger = LoggerFactory.getLogger(CustomerController.class);
 			return "redirect:/customers/";
 	}
 	
+	@PreAuthorize("isAuthenticated()")
 	@RequestMapping(params = "form", method = RequestMethod.POST)
 	public String create(@Valid Customer customer, BindingResult bindingResult, Model uiModel,
 						HttpServletRequest httpServletRequest, RedirectAttributes redirectAttributes, Locale locale) {
@@ -140,12 +149,14 @@ final Logger logger = LoggerFactory.getLogger(CustomerController.class);
 		customerService.save(customer);
 		return "redirect:/customers/" + UrlUtil.encodeUrlPathSegment(customer.getId().toString(),httpServletRequest); 
 	}
+	@PreAuthorize("isAuthenticated()")
 	@RequestMapping(params = "form", method = RequestMethod.GET) 
 	public String createForm(Model uiModel) {
 		Customer customer = new Customer(); 
 		uiModel.addAttribute("customer", customer); 
 		return "customers/create";
 	}
+	@PreAuthorize("isAuthenticated()")
 	@RequestMapping(params="form" ,method = RequestMethod.DELETE)
 	public String deleteCustomer(@PathVariable Long customerId) {
 		Customer customer =customerService.findById((Long)customerId);

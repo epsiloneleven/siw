@@ -11,6 +11,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -18,14 +20,17 @@ import javax.persistence.TemporalType;
 
 @Entity
 @Table(name="orders")
+@NamedQueries({
+	@NamedQuery(name = "Order.findAllOrders", query = "SELECT o FROM Order o"),
+	@NamedQuery(name="Order.findById", query="select distinct o from Order o where o.id = :id")})
 public class Order {
 	  
-	public Date getCreation_date() {
+	public Date getCreationdate() {
 		return creationdate;
 	}
 
-	public void setCreation_date(Date creation_date) {
-		this.creationdate = creation_date;
+	public void setCreationdate(Date creationdate) {
+		this.creationdate = creationdate;
 	}
 
 	public Customer getCustomer() {

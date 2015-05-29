@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+	<div xmlns:jsp="http://java.sun.com/JSP/Page" 
+		 xmlns:c="http://java.sun.com/jsp/jstl/core"  
+		 xmlns:joda="http://www.joda.org/joda/time/tags" version="2.0"
+		 xmlns:spring="http://www.springframework.org/tags">
+		<jsp:directive.page contentType="text/html;charset=UTF-8"/> 
+		<jsp:output omit-xml-declaration="yes"/>
+		<spring:url value="/orders" var="showOrderUrl"/>
+		<h1>Order Listing</h1>
+		<c:if test="${not empty orders}"> <table>
+		<thead>
+		 <tr>
+        	<th>Id</th> <th>State</th> <th>Customer</th>  <th>Creation Date</th> 
+		</tr>
+        </thead>
+		<tbody>
+			<c:forEach items="${orders}" var="order">
+				<tr>
+					<td><a href="${showOrderUrl}/${order.id}">${order.id}</a></td>
+					<td>${order.state}</td>
+					<td>${order.customer}</td>
+					<td>${order.creationdate}</td>
+					
+				</tr>
+			</c:forEach>
+
+            </tbody>
+        </table>
+    	</c:if>
+	</div>	

@@ -106,7 +106,7 @@ public class JpaSample {
         Order order1 = new Order();
         Date creationDate1 = new Date();
         order1.setState(0);
-   	    order1.setCreation_date(creationDate1);
+   	    order1.setCreationdate(creationDate1);
    	    order1.setCustomer(customer);
    	  	
    	 
