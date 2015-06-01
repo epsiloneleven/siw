@@ -34,10 +34,37 @@
             <tr>
                 <td>${labelOrderCreationdate}</td>
                 <td>${order.creationdate}</td>
-            </tr>
- 
-                                                                                                                  
-        </table>         
+            </tr>                                                                                                
+        </table>   
+        
+        <table>
+        <c:forEach items="${order.orderLines}" var="orderline">
+				<tr>
+					<td>${orderline.item}</td>
+					<td>${orderline.quantity}</td>
+					<td>${orderline.product.description}</td>
+					<td>${orderline.product.code}</td>
+					<td>
+						<form id="oderlines" action="/siw-web/orderlines/${orderline.id}" method="post">
+							<input type="hidden" name="orderId" value="${order.id}" />
+							<select name="quantity"  id="quantity" class="a-native-dropdown">
+            					<option value="1" selected="">1</option>
+		                        <option value="2">2</option>
+		                        <option value="3">3</option>        
+		                        <option value="4">4</option>       
+		                        <option value="5">5</option>
+		                        <option value="6">6</option>
+		                        <option value="7">7</option>
+        					</select>
+        					<button type="submit" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" onClick="return confirm('sure?')">
+            					<span class="ui-button-text">Update Quantity</span>
+        					</button> 
+						</form>	
+					</td>
+					<td><a href="#" >Remove</a></td>	
+				</tr>
+		</c:forEach>
+       	</table>
        
         <a href="${editOrderUrl}/${order.id}?form">${labelOrderUpdate}</a>     
         <form:form modelAttribute="order" id="orderDeleteForm" method="delete" enctype="multipart/form-data">

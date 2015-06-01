@@ -64,6 +64,14 @@ private Log log = LogFactory.getLog(OrderServiceImpl.class);
 		return query.getSingleResult();
 	}
 
+	
+	@Transactional(readOnly=true)
+	public Order findByCustomerId(Long id) {
+		TypedQuery<Order> query = em.createNamedQuery("Order.findByCustomerId", Order.class);
+		query.setParameter("id", id);
+		return query.getSingleResult();
+	}
+
 	@Transactional(readOnly=true)
 	public List<Order> findAll() {
 		List<Order> orders = em.createNamedQuery("Order.findAllOrders", Order.class).getResultList();

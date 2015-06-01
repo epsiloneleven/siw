@@ -22,7 +22,9 @@ import javax.persistence.TemporalType;
 @Table(name="orders")
 @NamedQueries({
 	@NamedQuery(name = "Order.findAllOrders", query = "SELECT o FROM Order o"),
-	@NamedQuery(name="Order.findById", query="select distinct o from Order o where o.id = :id")})
+	@NamedQuery(name="Order.findById", query="select distinct o from Order o where o.id = :id"),
+	@NamedQuery(name="Order.findByCustomerId", query="select distinct o from Order o where o.customer.id = :id")
+	})
 public class Order {
 	  
 	public Date getCreationdate() {

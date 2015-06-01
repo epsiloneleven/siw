@@ -12,6 +12,8 @@ public interface OrderService {
 	
 	public Order findById(Long id);
 	
+	public Order findByCustomerId(Long id);
+	
 	public List<Order> findAll();
 	
 }

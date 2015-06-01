@@ -64,6 +64,7 @@
     	
     	<form action="/siw-web/orders/" method="POST" >
     	<input type="hidden" name="productId" value='${product.id}'/>
+    	<input type="hidden" name="customerId" value="1" />
     	<select name="productQuantity"  id="productQuantity" class="a-native-dropdown">
             			<option value="1" selected="">1
                         </option>

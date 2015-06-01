@@ -7,87 +7,77 @@
     <jsp:directive.page contentType="text/html;charset=UTF-8"/>
     <jsp:output omit-xml-declaration="yes"/>
 
-    <spring:message code="label_product_new" var="labelProductNew"/>
-    <spring:message code="label_product_update" var="labelProductUpdate"/>
-    <spring:message code="label_product_name" var="labelProductName"/>
-    <spring:message code="label_product_description" var="labelProductDescription"/>
-    <spring:message code="label_product_price" var="labelProductPrice"/>
-    <spring:message code="label_product_code" var="labelProductCode"/>
-  	<spring:message code="label_product_instock" var="labelProductInStock"/>
-  
-    <spring:url value="/resources/ckeditor/ckeditor.js" var="ckeditor_url" />
-	<spring:url value="/resources/ckeditor/adapters/jquery.js" var="ckeditor_jquery_url" /> 
-	<script type="text/javascript" src="${ckeditor_url}"><jsp:text/></script>
-	<script type="text/javascript" src="${ckeditor_jquery_url}"><jsp:text/></script>
-    <spring:eval expression="product.id == null ? labelProductNew:labelProductUpdate" var="formTitle"/>
-
+    <spring:message code="label_order_new" var="labelOrderNew"/>
+    <spring:message code="label_order_update" var="labelOrderUpdate"/>
+    <spring:message code="label_order_id" var="labelOrderId"/>
+    <spring:message code="label_order_status" var="labelOrderState"/>
+    <spring:message code="label_order_creationdate" var="labelOrderCreationdate"/>
+    
+    <spring:eval expression="order.id == null ? labelOrderNew:labelOrderUpdate" var="formTitle"/>
     <h1>${formTitle}</h1>
 
-    <div id="productUpdate">
-    <form:form modelAttribute="product" id="productUpdateForm" method="post" enctype="multipart/form-data">
+    <div id="orderUpdate">
+    <form:form modelAttribute="order" id="orderUpdateForm" method="post" enctype="multipart/form-data">
 
         <c:if test="${not empty message}">
             <div id="message" class="${message.type}">${message.message}</div>
         </c:if>
-
-		<script type="text/javascript">
-		$(function() {
-			$("#description").ckeditor( {
-				toolbar : 'Basic', uiColor : '#CCCCCC'
-			} );
-		});
-		</script>
-        <form:label path="name">
-            ${labelProductName}* 
+		<!-- 
+		For each item in order.orderlines
+		print link to orderline editform
+		 -->
+		<div>
+		<table>
+			<thead>
+		 		<tr>
+        			<th>Item</th> <th>Quantity</th>
+				</tr>
+        	</thead>
+        	<tbody>
+		<c:forEach items="${order.orderLines}" var="orderline">
+				<tr>
+					<td>${orderline.item}</td>
+					<td>${orderline.quantity}</td>
+					<td><a href="#" >Update Quantity</a></td>
+					<td><a href="#" >Remove</a></td>
+					
+				</tr>
+		</c:forEach>
+		</tbody>
+		</table>
+		</div>
+		<!--  -->
+        <form:label path="id">
+            ${labelOrderId}
         </form:label>
-        <form:input path="name" />
+        <form:input path="id" />
         <div>
-            <form:errors path="name" cssClass="error" />
+            <form:errors path="id" cssClass="error" />
         </div>
         <p/>
 
-        <form:label path="description">
-            ${labelProductDescription}* 
+        <form:label path="state">
+            ${labelOrderState}
         </form:label>
-        <form:input path="description" />
+        <form:input path="state" />
         <div>
-            <form:errors path="description" cssClass="error" />
+            <form:errors path="state" cssClass="error" />
         </div>
         <p/>    
 
-        <form:label path="price">
-            ${labelProductPrice}
+        <form:label path="creationdate">
+            ${labelOrderCreationdate}
         </form:label>
-        <form:input path="price" id="price"/>    
+        <form:input path="creationdate" id="creationdate"/>    
         <div>
-            <form:errors path="price" cssClass="error" />
+            <form:errors path="creationdate" cssClass="error" />
         </div>
         <p/>  
-          <form:label path="code">
-            ${labelProductCode}
-        </form:label>
-        <form:input path="code" id="code"/>    
-        <div>
-            <form:errors path="code" cssClass="error" />
-        </div>
-         <p/>  
-        <form:label path="inStock">
-            ${labelProductInStock}
-        </form:label>
-        <form:input path="inStock" id="inStock"/>    
-        <div>
-            <form:errors path="inStock" cssClass="error" />
-        </div>                
-        <p/>
-         
-        <form:hidden path="id" />
+      
         
         <button type="submit" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only">
             <span class="ui-button-text">Save</span>
         </button> 
-        <button type="reset" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only">
-            <span class="ui-button-text">Reset</span>
-        </button>           
                       
     </form:form>   
     </div>

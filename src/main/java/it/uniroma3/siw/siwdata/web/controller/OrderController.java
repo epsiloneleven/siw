@@ -66,7 +66,7 @@ final Logger logger = LoggerFactory.getLogger(OrderController.class);
 	 * the "show" view.
 	 */
 	@PreAuthorize("isAuthenticated()")
-	@RequestMapping(value = "/{id}", method = RequestMethod.GET) 
+	@RequestMapping(value = "/{id}", method = {RequestMethod.GET }) 
 	public String show(@PathVariable("id") Long id, Model uiModel) {
 		
 		Order order = orderService.findById(id); 
@@ -138,18 +138,28 @@ final Logger logger = LoggerFactory.getLogger(OrderController.class);
 		logger.info("Creating order"); 
 		String id=httpServletRequest.getParameter("productId");
 		String quantity=httpServletRequest.getParameter("productQuantity");
+		String customerId=httpServletRequest.getParameter("customerId");
+		Order order=orderService.findByCustomerId(Long.decode(customerId));
 		Integer productQuantity=Integer.parseInt(quantity);
 		Long productId=Long.decode(id);
 		Product product= productService.findById(productId);
         Date creationDate = new Date();
-		Order order = new Order();
+		if (order == null) {
+			order =new Order();
+		}
+		List<OrderLine> orderlines=null;
+		if (order.getOrderLines()== null){
+			orderlines=new ArrayList<OrderLine>();
+		}
+		else {
+			orderlines=order.getOrderLines();
+		}
 		OrderLine orderLine=new OrderLine();
-   	    List<OrderLine> orderlines1= new ArrayList<OrderLine>();
    	    orderLine.setItem("Test");
  	    orderLine.setProduct(product);
  	    orderLine.setQuantity(productQuantity);
- 	    orderlines1.add(orderLine);
-		order.setOrderLines(orderlines1);
+ 	    orderlines.add(orderLine);
+		order.setOrderLines(orderlines);
 		order.setCreationdate(creationDate);
 		orderService.save(order);
 		uiModel.asMap().clear();
