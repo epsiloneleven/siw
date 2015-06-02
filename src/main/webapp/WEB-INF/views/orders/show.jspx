@@ -12,6 +12,7 @@
     <spring:message code="label_order_status" var="labelOrderStatus"/>
     <spring:message code="label_order_creationdate" var="labelOrderCreationdate"/>
     
+    
  	<spring:url value="/orders" var="editOrderUrl"/>
 
     <h1>${labelOrderInfo}</h1>

@@ -59,8 +59,7 @@ final Logger logger = LoggerFactory.getLogger(OrderController.class);
 	@RequestMapping(method = RequestMethod.GET)
 	public String list(Model uiModel,Principal principal) {
 		logger.info("Listing orders");	
-		
-		String userName = principal.getName(); //get logged in username
+				String userName = principal.getName(); //get logged in username
 		Customer customer =customerService.findByUserName(userName);
 		
 		

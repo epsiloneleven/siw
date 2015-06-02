@@ -38,7 +38,7 @@
         <property name="packagesToScan" value="it.uniroma3.siw.siwdata.domain"/>
         <property name="jpaProperties">
             <props>
-        		<prop key="hibernate.hbm2ddl.auto">create</prop>
+        		<prop key="hibernate.hbm2ddl.auto">update</prop>
                 <prop key="hibernate.dialect">org.hibernate.dialect.PostgreSQLDialect</prop>
                 <prop key="hibernate.max_fetch_depth">3</prop>
                 <prop key="hibernate.jdbc.fetch_size">50</prop>
