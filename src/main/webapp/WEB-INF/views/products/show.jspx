@@ -2,6 +2,7 @@
 <div xmlns:jsp="http://java.sun.com/JSP/Page" 
      xmlns:c="http://java.sun.com/jsp/jstl/core"  
      xmlns:spring="http://www.springframework.org/tags"
+     xmlns:sec="http://www.springframework.org/security/tags"
      xmlns:form="http://www.springframework.org/tags/form"
      xmlns:joda="http://www.joda.org/joda/time/tags"
      version="2.0">
@@ -54,13 +55,18 @@
                                                                                                                   
         </table>         
        
-        <a href="${editProductUrl}/${product.id}?form">${labelProductUpdate}</a>     
+       
+        <sec:authorize access="hasRole('ROLE_ADMIN')">       
+        <a href="${editProductUrl}/${product.id}?form">${labelProductUpdate}</a>  
+        
+          
         <form:form modelAttribute="product" id="productDeleteForm" method="delete" enctype="multipart/form-data">
         	<form:hidden path="id" />
         		<button type="submit" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" onClick="return confirm('sure?')">
             		<span class="ui-button-text">Delete</span>
         		</button>          
     	</form:form>
+    	</sec:authorize>
     	
     	<form action="/siw-web/orders/" method="POST" >
     	<input type="hidden" name="productId" value='${product.id}'/>

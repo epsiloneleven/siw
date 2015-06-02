@@ -26,6 +26,7 @@ import org.springframework.format.annotation.DateTimeFormat.ISO;
 @NamedQueries({
 @NamedQuery(name="Customer.findById", query="select distinct c from Customer c where c.id = :id"),
 @NamedQuery(name="Customer.findByLastName", query="select distinct c from Customer c where c.lastName = :lastname"),
+@NamedQuery(name="Customer.findByUserName", query="select distinct c from Customer c where c.userName = :username"),
 @NamedQuery(name="Customer.findAllWithDetails", query="select distinct c from Customer c left join c.address"),
 @NamedQuery(name="Customer.findAll",query="select c from Customer c")})
 public class Customer {
@@ -48,7 +49,36 @@ public class Customer {
 		  
 		  private String email;
 
-		  @Type(type="org.joda.time.contrib.hibernate.PersistentDateTime") 
+		  private String userName;
+		  
+		  private String password;
+		  
+		  private boolean enabled;
+		  
+		  public boolean isEnabled() {
+			return enabled;
+		}
+
+		public void setEnabled(boolean enabled) {
+			this.enabled = enabled;
+		}
+
+		public String getUserName() {
+			return userName;
+		}
+
+		public void setUserName(String userName) {
+			this.userName = userName;
+		}
+
+		public String getPassword() {
+			return password;
+		}
+
+		public void setPassword(String password) {
+			this.password = password;
+		}
+		@Type(type="org.joda.time.contrib.hibernate.PersistentDateTime") 
 		  @DateTimeFormat(iso=ISO.DATE)
 		  private DateTime dateOfBirth;
 	

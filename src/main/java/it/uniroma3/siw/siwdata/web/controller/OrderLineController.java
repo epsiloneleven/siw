@@ -60,7 +60,4 @@ final Logger logger = LoggerFactory.getLogger(OrderController.class);
 					messageSource.getMessage("order_save_success", new Object[]{}, locale))); 
 			return "redirect:/orders/";
 	}
-	
-	
-	
 }

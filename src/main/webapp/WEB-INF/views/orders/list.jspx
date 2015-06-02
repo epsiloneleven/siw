@@ -18,7 +18,7 @@
 				<tr>
 					<td><a href="${showOrderUrl}/${order.id}">${order.id}</a></td>
 					<td>${order.state}</td>
-					<td>${order.customer}</td>
+					<td>${order.customer.lastName}, ${order.customer.firstName}</td>
 					<td>${order.creationdate}</td>
 					
 				</tr>

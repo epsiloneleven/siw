@@ -60,6 +60,13 @@ private Log log = LogFactory.getLog(CustomerServiceImpl.class);
 		return query.getResultList();
 	}
 	
+	@Transactional(readOnly=true)
+	public Customer findByUserName(String userName) {
+		TypedQuery<Customer> query = em.createNamedQuery("Customer.findByUserName", Customer.class);
+		query.setParameter("username", userName);
+		return query.getSingleResult();
+	}
+	
 	
 	@Transactional(readOnly=true)
 	public List<Customer> findAll() {
@@ -72,5 +79,7 @@ private Log log = LogFactory.getLog(CustomerServiceImpl.class);
 		List<Customer> customers = em.createNamedQuery("Customer.findAllWithDetails", Customer.class).getResultList();
 		return customers;
 	}
+	
+	
     
 }

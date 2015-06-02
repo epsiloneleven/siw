@@ -1,13 +1,16 @@
 package it.uniroma3.siw.siwdata.web.controller;
 
+import it.uniroma3.siw.siwdata.domain.Customer;
 import it.uniroma3.siw.siwdata.domain.Order;
 import it.uniroma3.siw.siwdata.domain.OrderLine;
 import it.uniroma3.siw.siwdata.domain.Product;
+import it.uniroma3.siw.siwdata.service.CustomerService;
 import it.uniroma3.siw.siwdata.service.OrderService;
 import it.uniroma3.siw.siwdata.service.ProductService;
 import it.uniroma3.siw.siwdata.web.form.Message;
 import it.uniroma3.siw.siwdata.web.util.UrlUtil;
 
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -44,6 +47,9 @@ final Logger logger = LoggerFactory.getLogger(OrderController.class);
 	private OrderService orderService;
 	
 	@Autowired
+	private CustomerService customerService;
+	
+	@Autowired
 	private ProductService productService;
 	/* Responds to HTTP GET
 	 * Retrieves all orders and then injects the model in
@@ -51,13 +57,22 @@ final Logger logger = LoggerFactory.getLogger(OrderController.class);
 	 */
 	@PreAuthorize("isAuthenticated()")
 	@RequestMapping(method = RequestMethod.GET)
-	public String list(Model uiModel) {
+	public String list(Model uiModel,Principal principal) {
 		logger.info("Listing orders");	
 		
-		List<Order> orders = orderService.findAll();
+		String userName = principal.getName(); //get logged in username
+		Customer customer =customerService.findByUserName(userName);
+		
+		
+		//Case with more than one order must be managed
+		//List<Order> orders = orderService.findByCustomerId(customer.getId()) ;
+		Order order = orderService.findByCustomerId(customer.getId()) ;
+		
+		List<Order> orders= new ArrayList<Order>();
+		orders.add(order);
 		uiModel.addAttribute("orders", orders);
 		
-		logger.info("No. of orders: " + orders.size());
+		//logger.info("No. of orders: " + orders.size());
 		
 		return "orders/list";
 	}
@@ -138,14 +153,17 @@ final Logger logger = LoggerFactory.getLogger(OrderController.class);
 		logger.info("Creating order"); 
 		String id=httpServletRequest.getParameter("productId");
 		String quantity=httpServletRequest.getParameter("productQuantity");
-		String customerId=httpServletRequest.getParameter("customerId");
-		Order order=orderService.findByCustomerId(Long.decode(customerId));
+		String customerIdString=httpServletRequest.getParameter("customerId");
+		Long customerId=Long.decode(customerIdString);
+		Order order=orderService.findByCustomerId(customerId);
 		Integer productQuantity=Integer.parseInt(quantity);
 		Long productId=Long.decode(id);
+		Customer customer = customerService.findById(customerId);
 		Product product= productService.findById(productId);
         Date creationDate = new Date();
 		if (order == null) {
 			order =new Order();
+			order.setCustomer(customer);
 		}
 		List<OrderLine> orderlines=null;
 		if (order.getOrderLines()== null){

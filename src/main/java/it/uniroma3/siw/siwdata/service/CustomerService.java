@@ -21,5 +21,7 @@ public interface CustomerService {
 	
 	public List<Customer> findAllWithDetails();
 	
+	public Customer findByUserName(String userName);
+	
 
 }

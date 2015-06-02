@@ -16,7 +16,7 @@
 	
 	
 	<h3>${menuHeaderText}</h3>
-	<sec:authorize access="hasRole('ROLE_USER')">
+	<sec:authorize access="hasRole('ROLE_ADMIN')">
 		<a href="${addCustomerUrl}">
 		<h3>${menuAddCustomer}</h3></a>
 		<a href="${addProductUrl}">
