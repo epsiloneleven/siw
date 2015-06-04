@@ -149,7 +149,6 @@ final Logger logger = LoggerFactory.getLogger(OrderController.class);
 	@RequestMapping(method = RequestMethod.POST )
 	public String create( Model uiModel,
 						HttpServletRequest httpServletRequest, RedirectAttributes redirectAttributes, Locale locale) {
-		logger.info("Creating order"); 
 		String id=httpServletRequest.getParameter("productId");
 		String quantity=httpServletRequest.getParameter("productQuantity");
 		String customerIdString=httpServletRequest.getParameter("customerId");
@@ -172,17 +171,24 @@ final Logger logger = LoggerFactory.getLogger(OrderController.class);
 			orderlines=order.getOrderLines();
 		}
 		OrderLine orderLine=new OrderLine();
-   	    orderLine.setItem("Test");
- 	    orderLine.setProduct(product);
- 	    orderLine.setQuantity(productQuantity);
- 	    orderlines.add(orderLine);
-		order.setOrderLines(orderlines);
-		order.setCreationdate(creationDate);
-		orderService.save(order);
-		uiModel.asMap().clear();
-		redirectAttributes.addFlashAttribute("message", new Message("success",
-		messageSource.getMessage("order_save_success", new Object[]{}, locale))); 
-		logger.info("Order id: " + order.getId());
+		orderLine.setQuantity(productQuantity);
+		
+		if(product.getInStock() >= orderLine.getQuantity()){
+			  orderLine.setQuantity(Integer.parseInt(quantity));
+	   		  product.setInStock(product.getInStock() - Integer.parseInt(quantity));
+	   		  productService.save(product);
+	     	  orderLine.setItem("Test");
+	     	  orderLine.setProduct(product);
+	     	  orderlines.add(orderLine);
+	     	  order.setOrderLines(orderlines);
+	     	  order.setCreationdate(creationDate);
+	     	  orderService.save(order);
+	     	  uiModel.asMap().clear();
+	     	  redirectAttributes.addFlashAttribute("message", new Message("success", messageSource.getMessage("order_save_success", new Object[]{}, locale))); 
+	   	    }
+		else {
+			redirectAttributes.addFlashAttribute("message", new Message("error", messageSource.getMessage("order_save_fail", new Object[]{}, locale)));
+		}
 		return "redirect:/orders/" + UrlUtil.encodeUrlPathSegment(order.getId().toString(),httpServletRequest); 
 	}
 	@PreAuthorize("isAuthenticated()")

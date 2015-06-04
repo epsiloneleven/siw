@@ -68,6 +68,7 @@
     	</form:form>
     	</sec:authorize>
     	
+    	 <sec:authorize access="hasRole('ROLE_USER')">   
     	<form action="/siw-web/orders/" method="POST" >
     	<input type="hidden" name="productId" value='${product.id}'/>
     	<input type="hidden" name="customerId" value="1" />
@@ -90,7 +91,8 @@
         <button type="submit" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" onClick="return confirm('sure?')">
             		<span class="ui-button-text">Add To Cart</span>
         		</button>      
-        </form>            
+        </form>  
+        </sec:authorize>          
     </div>
 
 </div>
