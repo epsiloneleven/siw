@@ -139,7 +139,14 @@ final Logger logger = LoggerFactory.getLogger(OrderController.class);
 	public String delete(@PathVariable("id") Long id,Model uiModel,
 			HttpServletRequest httpServletRequest, RedirectAttributes redirectAttributes, Locale locale) {
 		    Order order=orderService.findById(id);
-			orderService.delete(order);
+		    //UPDATE IN STOCK ATTRIBUTES FOR PRODUCT BEING DELETED FROM ORDERLINE 
+			List<OrderLine> orderLines=order.getOrderLines();
+			for(OrderLine orderLine: orderLines) {
+				Product product = orderLine.getProduct();
+				Integer quantity= orderLine.getQuantity();
+				product.setInStock(product.getInStock() +quantity);
+			}
+		    orderService.delete(order);
 			uiModel.asMap().clear(); redirectAttributes.addFlashAttribute("message", new Message("success",
 					messageSource.getMessage("order_save_success", new Object[]{}, locale))); 
 			return "redirect:/orders/";

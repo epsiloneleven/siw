@@ -45,22 +45,39 @@ final Logger logger = LoggerFactory.getLogger(OrderController.class);
 						RedirectAttributes redirectAttributes, Locale locale,Model uiModel) {
 			String updatedQuantityString=(String)httpServletRequest.getParameter("quantity");
 			String orderId=(String)httpServletRequest.getParameter("orderId");
-			//BUG TO FIX
 			OrderLine orderLine=orderLineService.findById(id);
 			Integer updatedQuantity=Integer.parseInt(updatedQuantityString);
 			Product product =orderLine.getProduct();
-			  if(product.getInStock() >= updatedQuantity){
-				  orderLine.setQuantity(updatedQuantity);
-		   		  product.setInStock(product.getInStock() - updatedQuantity);
-		   		  productService.save(product);
-		   		  orderLineService.save(orderLine);
-		   		  redirectAttributes.addFlashAttribute("message", new Message("success",messageSource.getMessage("order_save_success", new Object[]{}, locale)));
-		   	    }
-			  else {
-				redirectAttributes.addFlashAttribute("message", new Message("error",messageSource.getMessage("order_save_fail", new Object[]{}, locale))); 
-				//uiModel.addAttribute("message", new Message("error", messageSource.getMessage("order_save_fail", new Object[]{}, locale)));
-			  }
-			return "redirect:/orders/" + UrlUtil.encodeUrlPathSegment(orderId.toString(),httpServletRequest);
+			
+			//NOTHING TO CHANGE SUCCESS MESSAGE
+			if(updatedQuantity ==orderLine.getQuantity()){
+		   		  redirectAttributes.addFlashAttribute("message", new Message("success",messageSource.getMessage("order_save_success", new Object[]{}, locale)));			
+			}
+			//SEND PRODUCT QUANTITY BACK TO STOCK SUCCESS MESSAGE
+			if(updatedQuantity < orderLine.getQuantity()){
+		   		 product.setInStock(product.getInStock() + orderLine.getQuantity()-updatedQuantity);
+		   		 productService.save(product);
+		   		 orderLine.setQuantity(updatedQuantity);
+		   		 orderLineService.save(orderLine);
+		   		 redirectAttributes.addFlashAttribute("message", new Message("success",messageSource.getMessage("order_save_success", new Object[]{}, locale)));		
+			}
+		   //GET PRODUCT QUANTITY FROM STOCK IF AVAILABLE
+		   if(updatedQuantity > orderLine.getQuantity()){
+			   Integer quantity= updatedQuantity-orderLine.getQuantity();
+			   //PRODUCT AVAILABLE SUCCESS MESSAGE
+			   if (product.getInStock() >= quantity) {
+				   product.setInStock(product.getInStock()-quantity);
+				   orderLine.setQuantity(updatedQuantity);
+				   productService.save(product);
+				   orderLineService.save(orderLine);
+			   	   redirectAttributes.addFlashAttribute("message", new Message("success",messageSource.getMessage("order_save_success", new Object[]{}, locale)));		
+			   }
+			   //PRODUCT OUT OF STOCK FAIL MESSAGE
+			   else {
+			   	   redirectAttributes.addFlashAttribute("message", new Message("success",messageSource.getMessage("order_save_fail", new Object[]{}, locale))); 
+			   }
+			}
+		return "redirect:/orders/" + UrlUtil.encodeUrlPathSegment(orderId.toString(),httpServletRequest);
 	}
 		
 	@PreAuthorize("isAuthenticated()")
