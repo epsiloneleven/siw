@@ -1,8 +1,10 @@
 package it.uniroma3.siw.siwdata.web.controller;
 
+import it.uniroma3.siw.siwdata.domain.Order;
 import it.uniroma3.siw.siwdata.domain.OrderLine;
 import it.uniroma3.siw.siwdata.domain.Product;
 import it.uniroma3.siw.siwdata.service.OrderLineService;
+import it.uniroma3.siw.siwdata.service.OrderService;
 import it.uniroma3.siw.siwdata.service.ProductService;
 import it.uniroma3.siw.siwdata.web.form.Message;
 import it.uniroma3.siw.siwdata.web.util.UrlUtil;
@@ -35,6 +37,9 @@ final Logger logger = LoggerFactory.getLogger(OrderController.class);
 	
 	@Autowired
 	private OrderLineService orderLineService;
+	
+	@Autowired
+	private OrderService orderService;
 	
 	@Autowired
 	private ProductService productService;
@@ -85,7 +90,17 @@ final Logger logger = LoggerFactory.getLogger(OrderController.class);
 	public String delete(@PathVariable("id") Long id,Model uiModel,
 			HttpServletRequest httpServletRequest, RedirectAttributes redirectAttributes, Locale locale) {
 		    OrderLine orderLine=orderLineService.findById(id);
+		    Product product=productService.findById(orderLine.getProduct().getId());
+		    //SEND DELETED QUANTITY BACK TO STOCK
+		    product.setInStock(product.getInStock()+orderLine.getQuantity());
+		    productService.save(product);
 			orderLineService.delete(orderLine);
+			//IF NO ORDERLINES ARE LEFT PROCEED TO DELETE ORDER TOO
+			String orderId=(String)httpServletRequest.getParameter("orderId");
+			Order order=orderService.findById(Long.decode(orderId));
+			if (order.getOrderLines().size() == 0 ){
+			orderService.delete(order);
+			}
 			uiModel.asMap().clear(); redirectAttributes.addFlashAttribute("message", new Message("success",
 					messageSource.getMessage("order_save_success", new Object[]{}, locale))); 
 			return "redirect:/orders/";

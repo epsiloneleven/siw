@@ -62,7 +62,15 @@
         					</button> 
 						</form>	
 					</td>
-					<td><a href="#" >Remove</a></td>	
+					<td>
+						<form action="/siw-web/orderlines/${orderline.id}" method="post" enctype="multipart/form-data">	
+						    <input type="hidden" name="_method" value="delete"/>
+						    <input type="hidden" name="orderId" value="${order.id}"/>
+							<button type="submit" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" onClick="return confirm('sure?')">
+            					<span class="ui-button-text">Remove From Cart</span>
+        					</button> 
+        				</form>
+					</td>	
 				</tr>
 		</c:forEach>
        	</table>
@@ -71,7 +79,7 @@
         <form:form modelAttribute="order" id="orderDeleteForm" method="delete" enctype="multipart/form-data">
         	<form:hidden path="id" />
         		<button type="submit" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" onClick="return confirm('sure?')">
-            		<span class="ui-button-text">Delete</span>
+            		<span class="ui-button-text">Delete Order</span>
         		</button>          
     	</form:form>    
                       

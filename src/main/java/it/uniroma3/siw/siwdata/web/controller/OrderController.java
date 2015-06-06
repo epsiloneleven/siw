@@ -186,6 +186,17 @@ final Logger logger = LoggerFactory.getLogger(OrderController.class);
 	   		  productService.save(product);
 	     	  orderLine.setItem("Test");
 	     	  orderLine.setProduct(product);
+	     	  //INSTEAD OF ADDING DIRECTLY, 
+	     	  //CHECK IF ORDERLINE BEING ADDED REFERS TO A PRODUCT WHICH IS ALREADY STORED IN AN ORDERLINE
+	     	  for(OrderLine oLine : orderlines){
+	     		  if (orderLine.getProduct().getId() == oLine.getProduct().getId() ) {
+	     			  oLine.setQuantity(oLine.getQuantity()+Integer.parseInt(quantity));
+	     			  orderService.save(order);
+	   	     	      uiModel.asMap().clear();
+	    	     	  redirectAttributes.addFlashAttribute("message", new Message("success", messageSource.getMessage("order_save_success", new Object[]{}, locale))); 
+	    	     	  return "redirect:/orders/" + UrlUtil.encodeUrlPathSegment(order.getId().toString(),httpServletRequest); 
+	     		  }
+	     	  }
 	     	  orderlines.add(orderLine);
 	     	  order.setOrderLines(orderlines);
 	     	  order.setCreationdate(creationDate);
