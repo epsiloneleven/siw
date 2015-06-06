@@ -23,7 +23,7 @@
 		<h3>${menuAddProduct}</h3></a>
 	</sec:authorize>
 	
-	
+	<!-- 
 	<sec:authorize access="isAnonymous()"> 
 	<div id="login">
 		<form name="loginForm" action="${loginUrl}" method="post"> 
@@ -45,4 +45,5 @@
        </form>
     </div>
 </sec:authorize>
+ -->
 </div>

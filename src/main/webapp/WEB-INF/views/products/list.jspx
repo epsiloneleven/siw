@@ -6,13 +6,29 @@
 		<jsp:directive.page contentType="text/html;charset=UTF-8"/> 
 		<jsp:output omit-xml-declaration="yes"/>
 		<spring:url value="/products" var="showProductUrl"/>
-		<h1>Product Listing</h1>
-		<c:if test="${not empty products}"> <table>
-		<thead>
-		 <tr>
-        	<th>Name</th> <th>Description</th> <th>Price</th>  <th>Code</th> <th>In Stock</th>
-		</tr>
-        </thead>
+		
+		
+		<spring:message code="heading_product_name" var="headingProductName"/>
+    	<spring:message code="heading_product_description" var="headingProductDescription"/>
+    	<spring:message code="heading_product_price" var="headingProductPrice"/>
+    	<spring:message code="heading_product_code" var="headingProductCode"/>
+    	<spring:message code="heading_product_availability" var="headingProductAvailability"/>
+		<spring:message code="label_product_list" var="labelProductListing"/>
+		
+		
+		<h2 class="sub-header">${labelProductListing}</h2>
+		<div class="table-responsive">
+		<c:if test="${not empty products}"> 
+		<table class="table table-stripped">
+			<thead>
+		 		<tr>
+        			<th>${headingProductName}</th>
+        			<th>${headingProductDescription}</th>
+        			<th>${headingProductPrice}</th> 
+        			<th>${headingProductCode}</th> 
+        			<th>${headingProductAvailability}</th>
+				</tr>
+        	</thead>
 		<tbody>
 			<c:forEach items="${products}" var="product">
 				<tr>
@@ -27,4 +43,5 @@
             </tbody>
         </table>
     	</c:if>
+    	</div>
 	</div>	

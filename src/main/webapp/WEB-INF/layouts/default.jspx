@@ -4,29 +4,49 @@
 xmlns:spring="http://www.springframework.org/tags">
 <jsp:output doctype-root-element="HTML" doctype-system="about:legacy-compat" />
 <jsp:directive.page contentType="text/html;charset=UTF-8" /> <jsp:directive.page pageEncoding="UTF-8" />
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /> <meta http-equiv="X-UA-Compatible" content="IE=8" />
-<spring:theme code="styleSheet" var="app_css" />
-<spring:url value="/${app_css}" var="app_css_url" />
-<link rel="stylesheet" type="text/css" media="screen" href="${app_css_url}" />
-<spring:url value="/resources/scripts/jquery-1.11.3.min.js" var="jquery_url" />
-<spring:url value="/resources/scripts/jquery-ui.js" var="jquery_ui_url" />
-<spring:url value="/resources/styles/custom-theme/jquery-ui.css" var="jquery_ui_theme_css" />
-<link rel="stylesheet" type="text/css" media="screen" href="${jquery_ui_theme_css}" /> <script src="${jquery_url}" type="text/javascript"><jsp:text/></script>
-<script src="${jquery_ui_url}" type="text/javascript"><jsp:text/></script>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /> <meta http-equiv="X-UA-Compatible" content="IE=8" />
+	<!-- 
+	<spring:theme code="styleSheet" var="app_css" />
+	<spring:url value="/${app_css}" var="app_css_url" />
+	<link rel="stylesheet" type="text/css" media="screen" href="${app_css_url}" />
+	 -->
+	 
+	 	
+		<spring:url value="/resources/scripts/jquery-1.11.3.min.js" var="jquery_url" />
+		<script src="${jquery_url}" type="text/javascript"><jsp:text/></script>
+		
+		<!-- Latest compiled and minified CSS -->
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css"/>
+		<!-- Optional theme -->
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap-theme.min.css"/>
+		<!-- Latest compiled and minified JavaScript -->
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+		
+		
+		<!-- <spring:url value="/resources/scripts/jquery-ui.js" var="jquery_ui_url" />
+		<spring:url value="/resources/styles/custom-theme/jquery-ui.css" var="jquery_ui_theme_css" />
+		 -->
+		<script src="${jquery_ui_url}" type="text/javascript"><jsp:text/></script>
+		
+		<!-- Get the user locale from the page context (it was set by Spring MVC's locale resolver) -->
+		<c:set var="userLocale">
+		<c:set var="plocale">${pageContext.response.locale}</c:set> <c:out value="${fn:replace(plocale, '_', '-')}" default="en" /></c:set>
+		<spring:message code="application_name" var="app_name" htmlEscape="false"/>
+		<title><spring:message code="welcome_h3" arguments="${app_name}" /></title> 
+	</head>
+	
+	<body> 
 
-<!-- Get the user locale from the page context (it was set by Spring MVC's locale resolver) -->
-<c:set var="userLocale">
-<c:set var="plocale">${pageContext.response.locale}</c:set> <c:out value="${fn:replace(plocale, '_', '-')}" default="en" />
-</c:set>
-<spring:message code="application_name" var="app_name" htmlEscape="false"/>
-<title><spring:message code="welcome_h3" arguments="${app_name}" /></title> </head>
-<body class="tundra spring"> <div id="headerWrapper">
-<tiles:insertAttribute name="header" ignore="true" /> </div>
-<div id="wrapper">
-<tiles:insertAttribute name="menu" ignore="true" /> <div id="main">
-<tiles:insertAttribute name="body"/>
-<tiles:insertAttribute name="footer" ignore="true"/> </div>
-      </div>
-   </body>
+		<div >
+			<tiles:insertAttribute name="header" ignore="true" /> 
+		</div>
+		<div >
+			<tiles:insertAttribute name="menu" ignore="true" /> 
+			<div >
+				<tiles:insertAttribute name="body"/>
+				<tiles:insertAttribute name="footer" ignore="true"/>
+			</div>
+		</div>
+	</body>
 </html>

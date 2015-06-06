@@ -13,86 +13,85 @@
     <spring:message code="label_product_name" var="labelProductName"/>
     <spring:message code="label_product_description" var="labelProductDescription"/>
     <spring:message code="label_product_price" var="labelProductPrice"/>
-        <spring:message code="label_product_code" var="labelProductCode"/>
-    
+    <spring:message code="label_product_code" var="labelProductCode"/>
     <spring:message code="label_product_instock" var="labelProductInStock"/>
     <spring:message code="label_product_update" var="labelProductUpdate"/>
  	<spring:url value="/products" var="editProductUrl"/>
 	
     <h1>${labelProductInfo}</h1>
 
-    <div id="productInfo">
-
+    <div class="tab-content">
         <c:if test="${not empty message}">
             <div id="message" class="${message.type}">${message.message}</div>
         </c:if>
-
-        <table>
+        <table class="table table-striped">
+        	<tbody>
             <tr>
-                <td>${labelProductName}</td>
+                <th>${labelProductName}</th>
                 <td>${product.name}</td>
             </tr>
             <tr>
-                <td>${labelProductDescription}</td>
+                <th>${labelProductDescription}</th>
                 <td>${product.description}</td>
             </tr>   
             <tr>
-                <td>${labelProductPrice}</td>
+                <th>${labelProductPrice}</th>
                 <td>${product.price}</td>
             </tr>
             <tr>
-                <td>${labelProductDescription}</td>
+                <th>${labelProductDescription}</th>
                 <td>${product.description}</td>
             </tr>
              <tr>
-                <td>${labelProductCode}</td>
+                <th>${labelProductCode}</th>
                 <td>${product.code}</td>
             </tr>
             <tr>
-                <td>${labelProductInStock}</td>
+                <th>${labelProductInStock}</th>
                 <td>${product.inStock}</td>
-            </tr>
-                                                                                                                  
+            </tr>  
+            </tbody>                                                                                                 
         </table>         
+       </div>
        
-       
-        <sec:authorize access="hasRole('ROLE_ADMIN')">       
-        <a href="${editProductUrl}/${product.id}?form">${labelProductUpdate}</a>  
-        
-          
-        <form:form modelAttribute="product" id="productDeleteForm" method="delete" enctype="multipart/form-data">
-        	<form:hidden path="id" />
-        		<button type="submit" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" onClick="return confirm('sure?')">
-            		<span class="ui-button-text">Delete</span>
-        		</button>          
-    	</form:form>
-    	</sec:authorize>
+       <div id="productAdminSection">
+	        <sec:authorize access="hasRole('ROLE_ADMIN')">       
+	        <a href="${editProductUrl}/${product.id}?form">${labelProductUpdate}</a>  
+	        <form:form modelAttribute="product" id="productDeleteForm" method="delete" enctype="multipart/form-data">
+	        	<form:hidden path="id" />
+	        		<button type="submit" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" onClick="return confirm('sure?')">
+	            		<span class="ui-button-text">Delete</span>
+	        		</button>          
+	    	</form:form>
+	    	</sec:authorize>
+    	</div>
     	
-    	 <sec:authorize access="hasRole('ROLE_USER')">   
-    	<form action="/siw-web/orders/" method="POST" >
-    	<input type="hidden" name="productId" value='${product.id}'/>
-    	<input type="hidden" name="customerId" value="1" />
-    	<select name="productQuantity"  id="productQuantity" class="a-native-dropdown">
-            			<option value="1" selected="">1
-                        </option>
-                        <option value="2">2
-                        </option>
-                        <option value="3">3
-                        </option>        
-                        <option value="4">4
-                        </option>       
-                        <option value="5">5
-                        </option>
-                        <option value="6">6
-                        </option>
-                        <option value="7">7
-                        </option>
-        </select>
-        <button type="submit" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" onClick="return confirm('sure?')">
-            		<span class="ui-button-text">Add To Cart</span>
-        		</button>      
-        </form>  
-        </sec:authorize>          
-    </div>
+    	<div class="form-inline" id="productPurchaseSection">
+    		
+	    	<sec:authorize access="hasRole('ROLE_USER')">   
+	    	<form action="/siw-web/orders/" method="POST" >
+	    	<div class="form-group">
+	    		<input type="hidden" name="productId" value='${product.id}'/>
+	    		<input type="hidden" name="customerId" value="1" />
+	    		<label for="productQuantity">Select Quantity:</label>
+	    		<select class="form-control " name="productQuantity"  id="productQuantity" >
+	            	<option value="1" selected="">1</option>
+	                <option value="2">2</option>
+	                <option value="3">3</option>        
+	                <option value="4">4</option>       
+	                <option value="5">5</option>
+	                <option value="6">6</option>
+	                <option value="7">7</option>
+	        	</select>
+	        </div>
+	        <button type="submit" class="btn btn-success" onClick="return confirm('sure?')">
+	         Add To Cart
+	        </button>   
+	        
+	        </form>  
+	        </sec:authorize>  
+	                
+    	</div>
 
 </div>
+

@@ -19,6 +19,10 @@
 	<spring:url value="/resources/ckeditor/adapters/jquery.js" var="ckeditor_jquery_url" /> 
 	<script type="text/javascript" src="${ckeditor_url}"><jsp:text/></script>
 	<script type="text/javascript" src="${ckeditor_jquery_url}"><jsp:text/></script>
+	
+	<spring:message code="label_button_save" var="labelButtonSave"/>
+    <spring:message code="label_button_reset" var="labelButtonReset"/>
+	
     <spring:eval expression="product.id == null ? labelProductNew:labelProductUpdate" var="formTitle"/>
 
     <h1>${formTitle}</h1>
@@ -83,10 +87,10 @@
         <form:hidden path="id" />
         
         <button type="submit" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only">
-            <span class="ui-button-text">Save</span>
+            <span class="ui-button-text">${labelButtonSave}</span>
         </button> 
         <button type="reset" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only">
-            <span class="ui-button-text">Reset</span>
+            <span class="ui-button-text">${labelButtonReset}</span>
         </button>           
                       
     </form:form>   
