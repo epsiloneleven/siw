@@ -16,11 +16,17 @@ xmlns:spring="http://www.springframework.org/tags">
 		<spring:url value="/resources/scripts/jquery-1.11.3.min.js" var="jquery_url" />
 		<script src="${jquery_url}" type="text/javascript"><jsp:text/></script>
 		
-		<!-- Latest compiled and minified CSS -->
+		<spring:url value="/resources/scripts/jquery-ui.js" var="jquery_ui_url" />
+		<script src="${jquery_ui_url}" type="text/javascript"><jsp:text/></script>
+		
+		
+		<spring:url value="/resources/styles/custom-theme/jquery-ui.css" var="jquery_ui_theme_css" />
+		<link rel="stylesheet" href="${jquery_ui_theme_css}"/>
+		<!-- BOOTSTRAP -->
+		
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css"/>
-		<!-- Optional theme -->
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap-theme.min.css"/>
-		<!-- Latest compiled and minified JavaScript -->
+		<link rel="stylesheet" href="http://getbootstrap.com/examples/theme/theme.css"/>
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
 		
 		
@@ -42,8 +48,10 @@ xmlns:spring="http://www.springframework.org/tags">
 			<tiles:insertAttribute name="header" ignore="true" /> 
 		</div>
 		<div >
+			<!-- 
 			<tiles:insertAttribute name="menu" ignore="true" /> 
-			<div >
+			 -->
+			<div style="margin-left:20px ;margin-right:20px"  >
 				<tiles:insertAttribute name="body"/>
 				<tiles:insertAttribute name="footer" ignore="true"/>
 			</div>

@@ -11,6 +11,9 @@ import javax.persistence.ManyToMany;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Version;
+import javax.validation.constraints.Size;
+
+import org.hibernate.validator.constraints.NotEmpty;
 
 	@Entity
 	@NamedQueries({
@@ -22,14 +25,19 @@ import javax.persistence.Version;
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 
+	@NotEmpty(message="{validation.name.NotEmpty.message}")
+	@Size(min=3, max=60, message="{validation.name.Size.message}")	
 	@Column(nullable = false)
 	private String name;
-
+	
 	private Float price;
+	
+	@NotEmpty(message="{validation.description.NotEmpty.message}") 
 	@Column(length = 2000)
-
 	private String description;
 
+	@NotEmpty(message="{validation.code.NotEmpty.message}") 
+	@Size(min=3, max=6, message="{validation.code.Size.message}")	
 	@Column(nullable = false , unique=true)
 	private String code;
 	

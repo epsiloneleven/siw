@@ -14,15 +14,6 @@
 	<spring:message code="label_login" var="labelLogin"/> 
 	<spring:url var="loginUrl" value="/j_spring_security_check" />
 	
-	
-	<h3>${menuHeaderText}</h3>
-	<sec:authorize access="hasRole('ROLE_ADMIN')">
-		<a href="${addCustomerUrl}">
-		<h3>${menuAddCustomer}</h3></a>
-		<a href="${addProductUrl}">
-		<h3>${menuAddProduct}</h3></a>
-	</sec:authorize>
-	
 	<!-- 
 	<sec:authorize access="isAnonymous()"> 
 	<div id="login">

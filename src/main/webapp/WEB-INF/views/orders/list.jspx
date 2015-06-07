@@ -6,25 +6,37 @@
 		<jsp:directive.page contentType="text/html;charset=UTF-8"/> 
 		<jsp:output omit-xml-declaration="yes"/>
 		<spring:url value="/orders" var="showOrderUrl"/>
-		<h1>Order Listing</h1>
-		<c:if test="${not empty orders}"> <table>
-		<thead>
-		 <tr>
-        	<th>Id</th> <th>State</th> <th>Customer</th>  <th>Creation Date</th> 
-		</tr>
-        </thead>
-		<tbody>
-			<c:forEach items="${orders}" var="order">
-				<tr>
-					<td><a href="${showOrderUrl}/${order.id}">${order.id}</a></td>
-					<td>${order.state}</td>
-					<td>${order.customer.lastName}, ${order.customer.firstName}</td>
-					<td>${order.creationdate}</td>
-					
-				</tr>
-			</c:forEach>
-
-            </tbody>
-        </table>
-    	</c:if>
+		
+	
+		<spring:message code="label_order_list" var="labelOrderListing"/>	
+		<spring:message code="heading_order_status" var="headingOrderStatus"/>
+    	<spring:message code="heading_order_creationdate" var="headingOrderCreationDate"/>
+		
+		
+		<div class="page-header">
+			<h1 >${labelOrderListing}</h1>
+			<div class="row">
+			<c:if test="${not empty orders}"> 
+				<div class="table-responsive col-md-8">
+						<table class="table table-striped">
+							<thead>
+		 						<tr>
+        						<th>${headingOrderCreationDate}</th>
+        						<th>${headingOrderStatus}</th>
+								</tr>
+        					</thead>
+        					<tbody>
+        					<c:forEach items="${orders}" var="order">
+							<tr>
+								<td><a href="${showOrderUrl}/${order.id}">${order.creationdate}</a></td>
+								<td>${order.state}</td>
+							</tr>
+							</c:forEach>
+							</tbody>
+        				</table>
+         		</div>
+    		</c:if>
+    		</div>
 	</div>	
+	</div>
+        					

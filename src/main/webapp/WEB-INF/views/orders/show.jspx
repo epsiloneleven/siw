@@ -8,78 +8,102 @@
     <jsp:directive.page contentType="text/html;charset=UTF-8"/>
     <jsp:output omit-xml-declaration="yes"/>
 
+	<spring:message code="label_order_info" var="labelOrderInfo"/>
     <spring:message code="label_order_id" var="labelOrderId"/>
     <spring:message code="label_order_status" var="labelOrderStatus"/>
     <spring:message code="label_order_creationdate" var="labelOrderCreationdate"/>
-    
+    <spring:message code="heading_orderline_quantity" var="headingOrderLineQuantity"/>
+    <spring:message code="heading_product_name" var="headingProductName"/>
+    <spring:message code="heading_product_description" var="headingProductDescription"/>
+    <spring:message code="label_button_update_quantity" var="labelButtonUpdateQuantity"/>
+    <spring:message code="label_button_remove_orderline" var="labelButtonRemoveOrderLine"/>
+    <spring:message code="label_button_delete_order" var="labelButtonDeleteOrder"/>
     
  	<spring:url value="/orders" var="editOrderUrl"/>
 
     <h1>${labelOrderInfo}</h1>
 
-    <div id="orderInfo">
+   <div class="tab-content">
 
         <c:if test="${not empty message}">
             <div id="message" class="${message.type}">${message.message}</div>
         </c:if>
 
-        <table>
+        <table class="table table-striped table-bordered">
             <tr>
-                <td>${labelOrderId}</td>
+                <th>${labelOrderId}</th>
                 <td>${order.id}</td>
             </tr>
             <tr>
-                <td>${labelOrderStatus}</td>
+                <th>${labelOrderStatus}</th>
                 <td>${order.state}</td>
             </tr>   
             <tr>
-                <td>${labelOrderCreationdate}</td>
+                <th>${labelOrderCreationdate}</th>
                 <td>${order.creationdate}</td>
             </tr>                                                                                                
-        </table>   
-        
-        <table>
+        </table>
+    </div>   
+    
+    <div class="tab-content">
+        <table class="table table-striped table-bordered">
+        	<thead>
+		 		<tr>
+        			<th>${headingProductName}</th>
+        			<th>${headingProductDescription}</th>
+        			<th colspan="2">${headingOrderLineQuantity}</th>
+        			<th></th>
+				</tr>
+        	</thead>
+        <tbody>
         <c:forEach items="${order.orderLines}" var="orderline">
+        
 				<tr>
-					<td>${orderline.item}</td>
+					<td>${orderline.product.name}</td>
+					<td style="width:500px">${orderline.product.description}</td>
 					<td>${orderline.quantity}</td>
-					<td>${orderline.product.description}</td>
-					<td>${orderline.product.code}</td>
 					<td>
-						<form id="oderlines" action="/siw-web/orderlines/${orderline.id}" method="post">
-							<input type="hidden" name="orderId" value="${order.id}" />
-							<select name="quantity"  id="quantity" class="a-native-dropdown">
-            					<option value="1" selected="">1</option>
-		                        <option value="2">2</option>
-		                        <option value="3">3</option>        
-		                        <option value="4">4</option>       
-		                        <option value="5">5</option>
-		                        <option value="6">6</option>
-		                        <option value="7">7</option>
-        					</select>
-        					<button type="submit" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" onClick="return confirm('sure?')">
-            					<span class="ui-button-text">Update Quantity</span>
-        					</button> 
-						</form>	
+						<div class="form-inline">
+							<div class="form-group">
+							<form id="oderlines" action="/siw-web/orderlines/${orderline.id}" method="post">
+								<input type="hidden" name="orderId" value="${order.id}" />
+								<select name="quantity"  id="quantity" class="form-control">
+	            					<option value="1" selected="">1</option>
+			                        <option value="2">2</option>
+			                        <option value="3">3</option>        
+			                        <option value="4">4</option>       
+			                        <option value="5">5</option>
+			                        <option value="6">6</option>
+			                        <option value="7">7</option>
+	        					</select>
+	        					<button type="submit" class="btn btn-success" onClick="return confirm('sure?')">
+	            					${labelButtonUpdateQuantity}
+	        					</button> 
+							</form>	
+							</div>
+						</div>
 					</td>
 					<td>
+						<div class="form-group">
 						<form action="/siw-web/orderlines/${orderline.id}" method="post" enctype="multipart/form-data">	
 						    <input type="hidden" name="_method" value="delete"/>
 						    <input type="hidden" name="orderId" value="${order.id}"/>
-							<button type="submit" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" onClick="return confirm('sure?')">
-            					<span class="ui-button-text">Remove From Cart</span>
+	        					<button type="submit" class="btn btn-warning" onClick="return confirm('sure?')">
+            					${labelButtonRemoveOrderLine}
         					</button> 
         				</form>
+        				</div>
 					</td>	
 				</tr>
 		</c:forEach>
+		</tbody>
        	</table>
        
         <a href="${editOrderUrl}/${order.id}?form">${labelOrderUpdate}</a>     
         <form:form modelAttribute="order" id="orderDeleteForm" method="delete" enctype="multipart/form-data">
         	<form:hidden path="id" />
-        		<button type="submit" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" onClick="return confirm('sure?')">
-            		<span class="ui-button-text">Delete Order</span>
+        		<button type="submit" class="btn btn-danger" onClick="return confirm('sure?')">
+            		${labelButtonDeleteOrder}
         		</button>          
     	</form:form>    
                       

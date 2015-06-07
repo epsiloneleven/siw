@@ -18,6 +18,9 @@
     
     <spring:eval expression="customer.id == null ? labelCustomerNew:labelCustomerUpdate" var="formTitle"/>
 
+
+	<div class="tab-content">
+
     <script type="text/javascript">
     $(function(){ 
         $('#dateOfBirth').datepicker({ 
@@ -36,44 +39,46 @@
         <c:if test="${not empty message}">
             <div id="message" class="${message.type}">${message.message}</div>
         </c:if>
-
-        <form:label path="firstName">
-            ${labelCustomerFirstName}* 
-        </form:label>
-        <form:input path="firstName" />
-        <div>
-            <form:errors path="firstName" cssClass="error" />
+		
+		<div class="form-group">
+        	<form:label path="firstName">
+            	${labelCustomerFirstName}* 
+        	</form:label>
+        	<form:input path="firstName" class="form-control"/>
+        	
+        		<span class="label label-danger">
+            		<form:errors path="firstName" cssClass="error" />
+            	</span>
+        	
         </div>
-        <p/>
 
-        <form:label path="lastName">
-            ${labelCustomerLastName}* 
-        </form:label>
-        <form:input path="lastName" />
-        <div>
-            <form:errors path="lastName" cssClass="error" />
-        </div>
-        <p/>    
-
-        <form:label path="dateOfBirth">
-            ${labelCustomerBirthDate}
-        </form:label>
-        <form:input path="dateOfBirth" id="dateOfBirth"/>    
-        <div>
-            <form:errors path="dateOfBirth" cssClass="error" />
-        </div>        
-        <p/>
-        <!-- 
-        <form:hidden path="version" />
-         -->
-        <button type="submit" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only">
-            <span class="ui-button-text">${labelButtonSave}</span>
+        <div class="form-group">
+	        <form:label path="lastName">
+	            ${labelCustomerLastName}* 
+	        </form:label>
+	        <form:input path="lastName" class="form-control" />
+	        <span class="label label-danger">
+	            <form:errors path="lastName" cssClass="error" />
+	        </span>
+		</div>
+		<div class="form-group">
+	        <form:label path="dateOfBirth">
+	            ${labelCustomerBirthDate}
+	        </form:label>
+	        <form:input path="dateOfBirth" class="date-picker form-control" id="dateOfBirth"/>    
+	       <span class="label label-danger">
+	            <form:errors path="dateOfBirth" cssClass="error" />
+	       </span>     
+	    </div>
+       
+        <button type="submit" class="btn btn-success">
+          ${labelButtonSave}
         </button> 
-        <button type="reset" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only">
-            <span class="ui-button-text">${labelButtonReset}</span>
+        <button type="reset" class="btn btn-warning">
+            ${labelButtonReset}
         </button>           
                       
     </form:form>   
     </div>
-
+</div>
 </div>

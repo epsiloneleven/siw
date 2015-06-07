@@ -16,7 +16,7 @@
 	<authentication-manager> 
 	<authentication-provider>
 	<security:jdbc-user-service data-source-ref="dataSource"    
-      users-by-username-query="select username, password, enabled from customer where username=?"   
+      users-by-username-query="select username, password ,enabled from customer where username=?"   
           authorities-by-username-query="select username, role from user_roles where username =?  "   
   	/>
   	  

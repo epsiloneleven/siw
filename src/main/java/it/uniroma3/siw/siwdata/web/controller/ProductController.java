@@ -93,8 +93,8 @@ final Logger logger = LoggerFactory.getLogger(CustomerController.class);
 			return "products/create"; 
 		}
 		uiModel.asMap().clear(); redirectAttributes.addFlashAttribute("message", new Message("success",
-		messageSource.getMessage("customer_save_success", new Object[]{}, locale))); 
-		logger.info("Customer id: " + product.getId());
+		messageSource.getMessage("product_save_success", new Object[]{}, locale))); 
+		logger.info("Product id: " + product.getId());
 		productService.save(product);
 		return "redirect:/products/" + UrlUtil.encodeUrlPathSegment(product.getId().toString(),httpServletRequest); 
 	}

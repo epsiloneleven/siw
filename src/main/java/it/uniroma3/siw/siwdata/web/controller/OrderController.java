@@ -155,15 +155,18 @@ final Logger logger = LoggerFactory.getLogger(OrderController.class);
 	@PreAuthorize("isAuthenticated()")
 	@RequestMapping(method = RequestMethod.POST )
 	public String create( Model uiModel,
-						HttpServletRequest httpServletRequest, RedirectAttributes redirectAttributes, Locale locale) {
+						HttpServletRequest httpServletRequest, RedirectAttributes redirectAttributes, Locale locale,Principal principal) {
 		String id=httpServletRequest.getParameter("productId");
 		String quantity=httpServletRequest.getParameter("productQuantity");
-		String customerIdString=httpServletRequest.getParameter("customerId");
-		Long customerId=Long.decode(customerIdString);
+		
+		String userName = principal.getName(); //get logged in username
+		Customer customer =customerService.findByUserName(userName);
+		Long customerId=customer.getId();
+		
 		Order order=orderService.findByCustomerId(customerId);
 		Integer productQuantity=Integer.parseInt(quantity);
 		Long productId=Long.decode(id);
-		Customer customer = customerService.findById(customerId);
+		
 		Product product= productService.findById(productId);
         Date creationDate = new Date();
 		if (order == null) {
