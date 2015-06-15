@@ -1,7 +1,6 @@
 package it.uniroma3.siw.siwdata.domain;
 
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -60,7 +59,8 @@ public class OrderLine {
 	//private Double unitPrice;
 	
 	
-	@OneToOne(cascade=CascadeType.REMOVE)
+	@OneToOne
+	//(cascade=CascadeType.REMOVE)
 	private Product product;
 
 	public Product getProduct() {

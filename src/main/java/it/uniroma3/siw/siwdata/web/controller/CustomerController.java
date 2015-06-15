@@ -6,6 +6,7 @@ import it.uniroma3.siw.siwdata.service.CustomerService;
 import it.uniroma3.siw.siwdata.web.form.Message;
 import it.uniroma3.siw.siwdata.web.util.UrlUtil;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -51,7 +52,7 @@ final Logger logger = LoggerFactory.getLogger(CustomerController.class);
 	 * Retrieves all customers and then injects the model in
 	 * the "list" view.
 	 */
-	@PreAuthorize("isAuthenticated()")
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@RequestMapping(method = RequestMethod.GET)
 	public String list(Model uiModel) {
 		logger.info("Listing customers");	
@@ -67,7 +68,7 @@ final Logger logger = LoggerFactory.getLogger(CustomerController.class);
 	 * Retrieves customer by Id and then injects the model in
 	 * the "show" view.
 	 */
-	@PreAuthorize("isAuthenticated()")
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET) 
 	public String show(@PathVariable("id") Long id, Model uiModel) {
 		
@@ -93,7 +94,7 @@ final Logger logger = LoggerFactory.getLogger(CustomerController.class);
 	 * In Spring MVC attributes are saved temporarily before the redirect (typically in the session) 
 	 * to be made available to the request after the redirect and removed immediately.
 	 */
-	@PreAuthorize("isAuthenticated()")
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@RequestMapping(value = "/{id}", params = "form", method = RequestMethod.POST)
 	public String update(@Valid Customer customer, BindingResult bindingResult, 
 						Model uiModel, HttpServletRequest httpServletRequest, 
@@ -115,14 +116,14 @@ final Logger logger = LoggerFactory.getLogger(CustomerController.class);
 	 * That is, do nothing if form is sent through HTTP:GET
 	 */
 	
-	@PreAuthorize("isAuthenticated()")
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@RequestMapping(value = "/{id}", params = "form", method = RequestMethod.GET) 
 	public String updateForm(@PathVariable("id") Long id, Model uiModel) {
 		uiModel.addAttribute("customer", customerService.findById(id));
 		return "customers/update"; 
 	}
 	
-	@PreAuthorize("isAuthenticated()")
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@RequestMapping(value = "/{id}", method=RequestMethod.DELETE)
 	public String delete(@PathVariable("id") Long id,Model uiModel,
 			HttpServletRequest httpServletRequest, RedirectAttributes redirectAttributes, Locale locale) {
@@ -133,7 +134,7 @@ final Logger logger = LoggerFactory.getLogger(CustomerController.class);
 			return "redirect:/customers/";
 	}
 	
-	@PreAuthorize("isAuthenticated()")
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@RequestMapping(params = "form", method = RequestMethod.POST)
 	public String create(@Valid Customer customer, BindingResult bindingResult, Model uiModel,
 						HttpServletRequest httpServletRequest, RedirectAttributes redirectAttributes, Locale locale) {
@@ -146,17 +147,22 @@ final Logger logger = LoggerFactory.getLogger(CustomerController.class);
 		uiModel.asMap().clear(); redirectAttributes.addFlashAttribute("message", new Message("success",
 		messageSource.getMessage("customer_save_success", new Object[]{}, locale))); 
 		logger.info("Customer id: " + customer.getId());
+		Date now= new Date();
+		customer.setDataRegistrazione(now);
+		customer.setEnabled(true);
+		customer.setUserName(customer.getFirstName());
+		customer.setPassword("123");
 		customerService.save(customer);
 		return "redirect:/customers/" + UrlUtil.encodeUrlPathSegment(customer.getId().toString(),httpServletRequest); 
 	}
-	@PreAuthorize("isAuthenticated()")
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@RequestMapping(params = "form", method = RequestMethod.GET) 
 	public String createForm(Model uiModel) {
 		Customer customer = new Customer(); 
 		uiModel.addAttribute("customer", customer); 
 		return "customers/create";
 	}
-	@PreAuthorize("isAuthenticated()")
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@RequestMapping(params="form" ,method = RequestMethod.DELETE)
 	public String deleteCustomer(@PathVariable Long customerId) {
 		Customer customer =customerService.findById((Long)customerId);

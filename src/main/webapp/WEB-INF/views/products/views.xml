@@ -18,6 +18,10 @@
 	<put-attribute name="body" value="/WEB-INF/views/products/edit.jspx" /> 
 </definition>
 
+<definition extends="default" name="products/providers"> 
+	<put-attribute name="body" value="/WEB-INF/views/products/providers.jspx" /> 
+</definition>
+
 
 </tiles-definitions>
 

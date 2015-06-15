@@ -5,6 +5,7 @@ import it.uniroma3.siw.siwdata.domain.Customer;
 import it.uniroma3.siw.siwdata.domain.Order;
 import it.uniroma3.siw.siwdata.domain.OrderLine;
 import it.uniroma3.siw.siwdata.domain.Product;
+import it.uniroma3.siw.siwdata.domain.Provider;
 import it.uniroma3.siw.siwdata.service.CustomerService;
 import it.uniroma3.siw.siwdata.service.OrderService;
 import it.uniroma3.siw.siwdata.service.ProductService;
@@ -33,6 +34,9 @@ public class JpaSample {
 		ProductService productService =ctx.getBean("jpaProductService" , ProductService.class);
 		OrderService orderService =ctx.getBean("jpaOrderService" , OrderService.class);
 
+		
+		
+		List<Provider> providers=productService.findProviders(6l);
 		//ADD CUSTOMER
 		Customer customer= new Customer();
 		customer.setFirstName("Tony");

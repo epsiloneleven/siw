@@ -66,18 +66,32 @@ private Log log = LogFactory.getLog(OrderServiceImpl.class);
 
 	
 	@Transactional(readOnly=true)
-	public Order findByCustomerId(Long id) {
+	public List<Order> findByCustomerId(Long id) {
 		TypedQuery<Order> query = em.createNamedQuery("Order.findByCustomerId", Order.class);
+		List<Order> orders=null;
+		query.setParameter("id", id);
+		try {
+			orders= query.getResultList();
+		}
+		catch (Exception e) {
+			System.out.println("Cannot find any order for such customer.");
+		}
+		return orders;
+	}
+	@Transactional(readOnly=true)
+	public Order findOpenByCustomerId(Long id) {
+		TypedQuery<Order> query = em.createNamedQuery("Order.findOpenByCustomerId", Order.class);
 		Order order=null;
 		query.setParameter("id", id);
 		try {
-		return query.getSingleResult();
+		order=query.getSingleResult();
 		}
 		catch (Exception e) {
 			System.out.println("Cannot find any order for such customer.");
 		}
 		return order;
 	}
+
 
 	@Transactional(readOnly=true)
 	public List<Order> findAll() {

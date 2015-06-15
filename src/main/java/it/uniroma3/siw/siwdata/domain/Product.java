@@ -18,7 +18,8 @@ import org.hibernate.validator.constraints.NotEmpty;
 	@Entity
 	@NamedQueries({
 	@NamedQuery(name = "Product.findAllProducts", query = "SELECT p FROM Product p"),
-	@NamedQuery(name="Product.findById", query="select distinct p from Product p where p.id = :id")})
+	@NamedQuery(name="Product.findById", query="select distinct p from Product p where p.id = :id"),
+	@NamedQuery(name="Product.findProviders", query="select distinct p.providers from Product p where p.id = :id")})
 	public class Product {
         
 	@Id

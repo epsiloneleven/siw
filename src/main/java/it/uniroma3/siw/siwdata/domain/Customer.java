@@ -2,7 +2,8 @@ package it.uniroma3.siw.siwdata.domain;
 
 import static javax.persistence.GenerationType.IDENTITY;
 
-import javax.persistence.CascadeType;
+import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -11,6 +12,8 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.validation.constraints.Size;
 
 import org.hibernate.annotations.Type;
@@ -55,7 +58,18 @@ public class Customer {
 		  
 		  private boolean enabled;
 		  
-		  public boolean isEnabled() {
+		  @Temporal(TemporalType.TIMESTAMP)
+		  private Date dataRegistrazione;
+		  
+		  public Date getDataRegistrazione() {
+			return dataRegistrazione;
+		}
+
+		public void setDataRegistrazione(Date dataRegistrazione) {
+			this.dataRegistrazione = dataRegistrazione;
+		}
+
+		public boolean isEnabled() {
 			return enabled;
 		}
 
@@ -82,7 +96,8 @@ public class Customer {
 		  @DateTimeFormat(iso=ISO.DATE)
 		  private DateTime dateOfBirth;
 	
-		  @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
+		  //@OneToOne(cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
+		  @OneToOne
 		  private Address address;
 
 		  public Long getId() {

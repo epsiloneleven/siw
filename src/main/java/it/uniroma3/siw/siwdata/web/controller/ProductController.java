@@ -1,6 +1,7 @@
 package it.uniroma3.siw.siwdata.web.controller;
 
 import it.uniroma3.siw.siwdata.domain.Product;
+import it.uniroma3.siw.siwdata.domain.Provider;
 import it.uniroma3.siw.siwdata.service.ProductService;
 import it.uniroma3.siw.siwdata.web.form.Message;
 import it.uniroma3.siw.siwdata.web.util.UrlUtil;
@@ -109,6 +110,14 @@ final Logger logger = LoggerFactory.getLogger(CustomerController.class);
 		uiModel.addAttribute("product", productService.findById(id));
 		return "products/update"; 
 	}
+	
+	@RequestMapping(value = "/{id}/providers", method = RequestMethod.GET) 
+	public String listProviders(@PathVariable("id") Long id, Model uiModel) {
+		List<Provider> providers= productService.findProviders(id);
+		uiModel.addAttribute("providers", providers);
+		return "products/providers"; 
+	}
+	
 
 	@RequestMapping(value = "/{id}", method=RequestMethod.DELETE)
 	public String delete(@PathVariable("id") Long id,Model uiModel,

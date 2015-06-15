@@ -19,6 +19,13 @@
     <spring:message code="label_button_remove_orderline" var="labelButtonRemoveOrderLine"/>
     <spring:message code="label_button_delete_order" var="labelButtonDeleteOrder"/>
     
+    <spring:message code="label_select_quantity" var="labelSelectQuantity"/>
+    <spring:message code="label_add_to_cart" var="labelAddToCart"/>
+    
+    <spring:message code="label_order_closed" var="labelOrderClosed"></spring:message>
+    <spring:message code="label_order_open" var="labelOrderOpen"></spring:message>
+    
+    
  	<spring:url value="/orders" var="editOrderUrl"/>
 
     <h1>${labelOrderInfo}</h1>
@@ -31,12 +38,13 @@
 
         <table class="table table-striped table-bordered">
             <tr>
-                <th>${labelOrderId}</th>
-                <td>${order.id}</td>
-            </tr>
-            <tr>
                 <th>${labelOrderStatus}</th>
-                <td>${order.state}</td>
+                <c:if test="${order.state==0}">
+                	<td style="color:green"> ${labelOrderOpen}</td>
+                </c:if>
+                 <c:if test="${order.state==1}">
+                	<td style="color:red"> ${labelOrderClosed}</td>
+                </c:if>
             </tr>   
             <tr>
                 <th>${labelOrderCreationdate}</th>
@@ -52,7 +60,9 @@
         			<th>${headingProductName}</th>
         			<th>${headingProductDescription}</th>
         			<th colspan="2">${headingOrderLineQuantity}</th>
+        			<c:if test="${order.state ==0}" >
         			<th></th>
+        			</c:if>
 				</tr>
         	</thead>
         <tbody>
@@ -62,6 +72,7 @@
 					<td>${orderline.product.name}</td>
 					<td style="width:500px">${orderline.product.description}</td>
 					<td>${orderline.quantity}</td>
+					<c:if test="${order.state == 0}"> 
 					<td>
 						<div class="form-inline">
 							<div class="form-group">
@@ -94,19 +105,24 @@
         				</form>
         				</div>
 					</td>	
+					</c:if>
 				</tr>
 		</c:forEach>
 		</tbody>
        	</table>
-       
-        <a href="${editOrderUrl}/${order.id}?form">${labelOrderUpdate}</a>     
+       	<c:if test="${order.state == 0}"> 
         <form:form modelAttribute="order" id="orderDeleteForm" method="delete" enctype="multipart/form-data">
         	<form:hidden path="id" />
         		<button type="submit" class="btn btn-danger" onClick="return confirm('sure?')">
             		${labelButtonDeleteOrder}
         		</button>          
-    	</form:form>    
-                      
+    	</form:form>  
+		<form  action="/siw-web/orders/${order.id}/checkout" method="post">
+        		<button type="submit" name="method" value="checkout" class="btn btn-primary" style="height: 34px;width: 106px;margin-top: 20px;" onClick="return confirm('sure?')">
+            		Checkout
+        		</button>          
+    	</form>   
+       </c:if>               
     </div>
 
 </div>

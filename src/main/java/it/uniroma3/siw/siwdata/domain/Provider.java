@@ -8,6 +8,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToOne;
 
 
 @Entity
@@ -59,7 +60,31 @@ public class Provider {
 	@Column(nullable=false)
 	private String email;
 	
+	@Column(nullable=false)
+	private String partitaIva;
+	
+	public String getPartitaIva() {
+		return partitaIva;
+	}
+
+	public void setPartitaIva(String partitaIva) {
+		this.partitaIva = partitaIva;
+	}
+
+	public Address getAddress() {
+		return address;
+	}
+
+	public void setAddress(Address address) {
+		this.address = address;
+	}
+
 	private String phoneNumber;
+	
+	
+	@OneToOne
+	private Address address;
+
 	
 	@ManyToMany
 	private List<Product> products;

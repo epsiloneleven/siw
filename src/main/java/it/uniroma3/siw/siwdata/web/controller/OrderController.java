@@ -57,22 +57,21 @@ final Logger logger = LoggerFactory.getLogger(OrderController.class);
 	 */
 	@PreAuthorize("isAuthenticated()")
 	@RequestMapping(method = RequestMethod.GET)
-	public String list(Model uiModel,Principal principal) {
+	public String list(Model uiModel,Principal principal,HttpServletRequest httpServletRequest) {
 		logger.info("Listing orders");	
-				String userName = principal.getName(); //get logged in username
+		if (httpServletRequest.isUserInRole("ROLE_USER") ) {
+		String userName = principal.getName(); //get logged in username
 		Customer customer =customerService.findByUserName(userName);
-		
-		
 		//Case with more than one order must be managed
 		//List<Order> orders = orderService.findByCustomerId(customer.getId()) ;
-		Order order = orderService.findByCustomerId(customer.getId()) ;
-		
-		List<Order> orders= new ArrayList<Order>();
-		orders.add(order);
-		uiModel.addAttribute("orders", orders);
-		
-		//logger.info("No. of orders: " + orders.size());
-		
+		List<Order> customerOrders = orderService.findByCustomerId(customer.getId()) ;
+		uiModel.addAttribute("orders", customerOrders);
+		}
+		else if (httpServletRequest.isUserInRole("ROLE_ADMIN") ) {
+			List<Order> allOrders= new ArrayList<Order>();
+			allOrders = orderService.findAll();
+			uiModel.addAttribute("orders", allOrders);
+		}
 		return "orders/list";
 	}
 	/* Responds to HTTP GET
@@ -121,6 +120,16 @@ final Logger logger = LoggerFactory.getLogger(OrderController.class);
 			orderService.save(order);
 			return "redirect:/orders/" + UrlUtil.encodeUrlPathSegment(order.getId().toString(),httpServletRequest);
 	}
+	@PreAuthorize("isAuthenticated()")
+	@RequestMapping(value = "/{id}/checkout", method = RequestMethod.POST)
+	public String checkout( @PathVariable("id") Long id, Model uiModel) {
+			Order order =orderService.findById(id);
+			logger.info("Updating order"); 
+			uiModel.asMap().clear(); 
+			order.setState(1);
+			orderService.save(order);
+			return "redirect:/orders/";
+	}
 	/*For the updateForm() method, the order is retrieved and saved into the Model, 
 	 * and then the logical view orders/update is returned, 
 	 * which will display the edit order view.
@@ -163,7 +172,7 @@ final Logger logger = LoggerFactory.getLogger(OrderController.class);
 		Customer customer =customerService.findByUserName(userName);
 		Long customerId=customer.getId();
 		
-		Order order=orderService.findByCustomerId(customerId);
+		Order order=orderService.findOpenByCustomerId(customerId);
 		Integer productQuantity=Integer.parseInt(quantity);
 		Long productId=Long.decode(id);
 		
