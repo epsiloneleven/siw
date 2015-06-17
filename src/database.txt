@@ -1,0 +1,644 @@
+--
+-- PostgreSQL database dump
+--
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SET check_function_bodies = false;
+SET client_min_messages = warning;
+
+--
+-- Name: plpgsql; Type: EXTENSION; Schema: -; Owner: 
+--
+
+CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
+
+
+--
+-- Name: EXTENSION plpgsql; Type: COMMENT; Schema: -; Owner: 
+--
+
+COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
+
+
+SET search_path = public, pg_catalog;
+
+SET default_tablespace = '';
+
+SET default_with_oids = false;
+
+--
+-- Name: address; Type: TABLE; Schema: public; Owner: siw_data; Tablespace: 
+--
+
+CREATE TABLE address (
+    id bigint NOT NULL,
+    city character varying(255) NOT NULL,
+    country character varying(255) NOT NULL,
+    state character varying(255),
+    street character varying(255) NOT NULL,
+    zipcode character varying(255) NOT NULL
+);
+
+
+ALTER TABLE public.address OWNER TO siw_data;
+
+--
+-- Name: contact; Type: TABLE; Schema: public; Owner: siw_data; Tablespace: 
+--
+
+CREATE TABLE contact (
+    id bigint NOT NULL,
+    birth_date date,
+    first_name character varying(255),
+    last_name character varying(255),
+    version integer
+);
+
+
+ALTER TABLE public.contact OWNER TO siw_data;
+
+--
+-- Name: contact_hobby_detail; Type: TABLE; Schema: public; Owner: siw_data; Tablespace: 
+--
+
+CREATE TABLE contact_hobby_detail (
+    hobby_id character varying(255) NOT NULL,
+    contact_id bigint NOT NULL
+);
+
+
+ALTER TABLE public.contact_hobby_detail OWNER TO siw_data;
+
+--
+-- Name: contact_id_seq; Type: SEQUENCE; Schema: public; Owner: siw_data
+--
+
+CREATE SEQUENCE contact_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.contact_id_seq OWNER TO siw_data;
+
+--
+-- Name: contact_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: siw_data
+--
+
+ALTER SEQUENCE contact_id_seq OWNED BY contact.id;
+
+
+--
+-- Name: contact_tel_detail; Type: TABLE; Schema: public; Owner: siw_data; Tablespace: 
+--
+
+CREATE TABLE contact_tel_detail (
+    id bigint NOT NULL,
+    tel_number character varying(255),
+    tel_type character varying(255),
+    version integer,
+    contact_id bigint
+);
+
+
+ALTER TABLE public.contact_tel_detail OWNER TO siw_data;
+
+--
+-- Name: contact_tel_detail_id_seq; Type: SEQUENCE; Schema: public; Owner: siw_data
+--
+
+CREATE SEQUENCE contact_tel_detail_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.contact_tel_detail_id_seq OWNER TO siw_data;
+
+--
+-- Name: contact_tel_detail_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: siw_data
+--
+
+ALTER SEQUENCE contact_tel_detail_id_seq OWNED BY contact_tel_detail.id;
+
+
+--
+-- Name: customer; Type: TABLE; Schema: public; Owner: siw_data; Tablespace: 
+--
+
+CREATE TABLE customer (
+    id bigint NOT NULL,
+    dateofbirth timestamp without time zone,
+    email character varying(255),
+    enabled boolean NOT NULL,
+    firstname character varying(60) NOT NULL,
+    lastname character varying(40) NOT NULL,
+    password character varying(255),
+    username character varying(255),
+    address_id bigint,
+    dataregistrazione timestamp without time zone
+);
+
+
+ALTER TABLE public.customer OWNER TO siw_data;
+
+--
+-- Name: customer_id_seq; Type: SEQUENCE; Schema: public; Owner: siw_data
+--
+
+CREATE SEQUENCE customer_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.customer_id_seq OWNER TO siw_data;
+
+--
+-- Name: customer_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: siw_data
+--
+
+ALTER SEQUENCE customer_id_seq OWNED BY customer.id;
+
+
+--
+-- Name: hibernate_sequence; Type: SEQUENCE; Schema: public; Owner: siw_data
+--
+
+CREATE SEQUENCE hibernate_sequence
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.hibernate_sequence OWNER TO siw_data;
+
+--
+-- Name: hobby; Type: TABLE; Schema: public; Owner: siw_data; Tablespace: 
+--
+
+CREATE TABLE hobby (
+    hobby_id character varying(255) NOT NULL
+);
+
+
+ALTER TABLE public.hobby OWNER TO siw_data;
+
+--
+-- Name: orderline; Type: TABLE; Schema: public; Owner: siw_data; Tablespace: 
+--
+
+CREATE TABLE orderline (
+    id bigint NOT NULL,
+    item character varying(255) NOT NULL,
+    quantity integer NOT NULL,
+    product_id bigint,
+    orders_id bigint
+);
+
+
+ALTER TABLE public.orderline OWNER TO siw_data;
+
+--
+-- Name: orders; Type: TABLE; Schema: public; Owner: siw_data; Tablespace: 
+--
+
+CREATE TABLE orders (
+    id bigint NOT NULL,
+    creationdate timestamp without time zone NOT NULL,
+    state integer NOT NULL,
+    customer_id bigint
+);
+
+
+ALTER TABLE public.orders OWNER TO siw_data;
+
+--
+-- Name: product; Type: TABLE; Schema: public; Owner: siw_data; Tablespace: 
+--
+
+CREATE TABLE product (
+    id bigint NOT NULL,
+    code character varying(255) NOT NULL,
+    description character varying(2000),
+    instock integer NOT NULL,
+    name character varying(255) NOT NULL,
+    price real,
+    version bigint NOT NULL
+);
+
+
+ALTER TABLE public.product OWNER TO siw_data;
+
+--
+-- Name: provider; Type: TABLE; Schema: public; Owner: siw_data; Tablespace: 
+--
+
+CREATE TABLE provider (
+    id bigint NOT NULL,
+    email character varying(255) NOT NULL,
+    name character varying(255) NOT NULL,
+    phonenumber character varying(255),
+    address_id bigint,
+    partitaiva character varying(255)
+);
+
+
+ALTER TABLE public.provider OWNER TO siw_data;
+
+--
+-- Name: provider_product; Type: TABLE; Schema: public; Owner: siw_data; Tablespace: 
+--
+
+CREATE TABLE provider_product (
+    providers_id bigint NOT NULL,
+    products_id bigint NOT NULL
+);
+
+
+ALTER TABLE public.provider_product OWNER TO siw_data;
+
+--
+-- Name: user_roles; Type: TABLE; Schema: public; Owner: siw_data; Tablespace: 
+--
+
+CREATE TABLE user_roles (
+    user_role_id integer,
+    role character varying(45),
+    username character varying(40),
+    userid integer
+);
+
+
+ALTER TABLE public.user_roles OWNER TO siw_data;
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: siw_data
+--
+
+ALTER TABLE ONLY contact ALTER COLUMN id SET DEFAULT nextval('contact_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: siw_data
+--
+
+ALTER TABLE ONLY contact_tel_detail ALTER COLUMN id SET DEFAULT nextval('contact_tel_detail_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: siw_data
+--
+
+ALTER TABLE ONLY customer ALTER COLUMN id SET DEFAULT nextval('customer_id_seq'::regclass);
+
+
+--
+-- Data for Name: address; Type: TABLE DATA; Schema: public; Owner: siw_data
+--
+
+COPY address (id, city, country, state, street, zipcode) FROM stdin;
+1	New York	United States	NY	123, Fake Street	123456
+2	San Francisco	United States	CA	678, Fantasy Square	56789
+3	Miami	United States	FL	555, Endless Road	34567
+\.
+
+
+--
+-- Data for Name: contact; Type: TABLE DATA; Schema: public; Owner: siw_data
+--
+
+COPY contact (id, birth_date, first_name, last_name, version) FROM stdin;
+\.
+
+
+--
+-- Data for Name: contact_hobby_detail; Type: TABLE DATA; Schema: public; Owner: siw_data
+--
+
+COPY contact_hobby_detail (hobby_id, contact_id) FROM stdin;
+\.
+
+
+--
+-- Name: contact_id_seq; Type: SEQUENCE SET; Schema: public; Owner: siw_data
+--
+
+SELECT pg_catalog.setval('contact_id_seq', 1, false);
+
+
+--
+-- Data for Name: contact_tel_detail; Type: TABLE DATA; Schema: public; Owner: siw_data
+--
+
+COPY contact_tel_detail (id, tel_number, tel_type, version, contact_id) FROM stdin;
+\.
+
+
+--
+-- Name: contact_tel_detail_id_seq; Type: SEQUENCE SET; Schema: public; Owner: siw_data
+--
+
+SELECT pg_catalog.setval('contact_tel_detail_id_seq', 1, false);
+
+
+--
+-- Data for Name: customer; Type: TABLE DATA; Schema: public; Owner: siw_data
+--
+
+COPY customer (id, dateofbirth, email, enabled, firstname, lastname, password, username, address_id, dataregistrazione) FROM stdin;
+7	2015-06-01 00:00:00	\N	t	Mario	Rossi	123	Mario	\N	2015-06-16 00:23:33.115
+1	1970-01-01 00:00:00	John@siw.com	t	John	Smith	123	John	\N	2015-01-01 00:00:00
+2	1980-02-10 00:00:00	Jane@siw.com	t	Jane	Smith	123	Jane	\N	2015-01-01 00:00:00
+3	1990-03-20 00:00:00	Mike@siw.com	t	Mike	Jones	123	Mike	\N	2015-01-01 00:00:00
+8	2015-06-30 00:00:00	giovanni@rana.net	t	Giovanni	Rana	123	Giovanni	\N	2015-06-16 00:30:13.432
+9	2015-06-01 00:00:00	eklypse@live.it	t	Tinne	yu	123	Tinne	\N	2015-06-17 13:43:35.151
+\.
+
+
+--
+-- Name: customer_id_seq; Type: SEQUENCE SET; Schema: public; Owner: siw_data
+--
+
+SELECT pg_catalog.setval('customer_id_seq', 9, true);
+
+
+--
+-- Name: hibernate_sequence; Type: SEQUENCE SET; Schema: public; Owner: siw_data
+--
+
+SELECT pg_catalog.setval('hibernate_sequence', 48, true);
+
+
+--
+-- Data for Name: hobby; Type: TABLE DATA; Schema: public; Owner: siw_data
+--
+
+COPY hobby (hobby_id) FROM stdin;
+\.
+
+
+--
+-- Data for Name: orderline; Type: TABLE DATA; Schema: public; Owner: siw_data
+--
+
+COPY orderline (id, item, quantity, product_id, orders_id) FROM stdin;
+41	Test	1	4	\N
+43	Test	1	4	44
+48	Test	4	24	47
+\.
+
+
+--
+-- Data for Name: orders; Type: TABLE DATA; Schema: public; Owner: siw_data
+--
+
+COPY orders (id, creationdate, state, customer_id) FROM stdin;
+44	2015-06-17 12:02:28.411	1	3
+47	2015-06-17 13:42:42.533	1	3
+\.
+
+
+--
+-- Data for Name: product; Type: TABLE DATA; Schema: public; Owner: siw_data
+--
+
+COPY product (id, code, description, instock, name, price, version) FROM stdin;
+24	45678	<p>\r\n\t<span style="color: rgb(51, 51, 51); font-family: verdana, arial, helvetica, sans-serif; font-size: small;">The new Gameness Air may be the lightest BJJ Gi in the world. The Gameness Air Gi uses a comb weave is made from preshrunk cotton and has ripstop pants. The Gameness Air Gi has quickly become one of the most popular BJJ gis on the planet.</span></p>\r\n	14	Blue Gameness Air Kimono (Gi)	199	7
+6	0999	<p>\r\n\t<span style="color: rgb(51, 51, 51); font-family: Arial, sans-serif; font-size: 14px; line-height: 22.3999996185303px;">The agile, lightweight, open-source Spring Framework continues to be the&nbsp;</span><em style="color: rgb(51, 51, 51); font-family: Arial, sans-serif; font-size: 14px; line-height: 22.3999996185303px;">de facto</em><span style="color: rgb(51, 51, 51); font-family: Arial, sans-serif; font-size: 14px; line-height: 22.3999996185303px;">&nbsp;leading enterprise Java application development framework for today&#39;s Java programmers and developers. It works with other leading open-source, agile and lightweight Java technologies like Hibernate, Groovy, MyBatis, and more. Spring now also works with Java EE and JPA 2 as well.</span></p>\r\n	100	Pro Spring 3 - Expert's Voice in Spring	39.9000015	12
+4	01199	<p>\r\n\t<span style="color: rgb(51, 51, 51); font-family: verdana, arial, helvetica, sans-serif; font-size: small;">Game of Thrones is one of HBO&rsquo;s signature series and a huge runaway hit for the network. This year, a plethora of compelling storylines will play out to their inevitable, and bloody, conclusions.&nbsp;</span></p>\r\n	9	Game of Thrones: Season 4	32.9900017	19
+\.
+
+
+--
+-- Data for Name: provider; Type: TABLE DATA; Schema: public; Owner: siw_data
+--
+
+COPY provider (id, email, name, phonenumber, address_id, partitaiva) FROM stdin;
+1	sales@countrymart.us	Malibu Country Mart	555-123	\N	ABC123456ZYZ
+2	sales@parkwayplaza.com	Parkway Plaza	555-678	\N	ABC123456ZYZ
+3	info@lcc.net	Los Cerritos Center	555-456	\N	ABC123456ZYZ
+4	info@shermanoaks.us	Sherman Oaks Galleria	555-321	\N	ABC123456ZYZ
+\.
+
+
+--
+-- Data for Name: provider_product; Type: TABLE DATA; Schema: public; Owner: siw_data
+--
+
+COPY provider_product (providers_id, products_id) FROM stdin;
+1	6
+4	6
+2	4
+3	4
+1	24
+2	24
+3	24
+4	24
+\.
+
+
+--
+-- Data for Name: user_roles; Type: TABLE DATA; Schema: public; Owner: siw_data
+--
+
+COPY user_roles (user_role_id, role, username, userid) FROM stdin;
+\N	ROLE_ADMIN	John	1
+\N	ROLE_USER	Mike	3
+\N	ROLE_USER	Jane	3
+\.
+
+
+--
+-- Name: address_pkey; Type: CONSTRAINT; Schema: public; Owner: siw_data; Tablespace: 
+--
+
+ALTER TABLE ONLY address
+    ADD CONSTRAINT address_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: contact_hobby_detail_pkey; Type: CONSTRAINT; Schema: public; Owner: siw_data; Tablespace: 
+--
+
+ALTER TABLE ONLY contact_hobby_detail
+    ADD CONSTRAINT contact_hobby_detail_pkey PRIMARY KEY (contact_id, hobby_id);
+
+
+--
+-- Name: contact_pkey; Type: CONSTRAINT; Schema: public; Owner: siw_data; Tablespace: 
+--
+
+ALTER TABLE ONLY contact
+    ADD CONSTRAINT contact_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: contact_tel_detail_pkey; Type: CONSTRAINT; Schema: public; Owner: siw_data; Tablespace: 
+--
+
+ALTER TABLE ONLY contact_tel_detail
+    ADD CONSTRAINT contact_tel_detail_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: customer_pkey; Type: CONSTRAINT; Schema: public; Owner: siw_data; Tablespace: 
+--
+
+ALTER TABLE ONLY customer
+    ADD CONSTRAINT customer_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: hobby_pkey; Type: CONSTRAINT; Schema: public; Owner: siw_data; Tablespace: 
+--
+
+ALTER TABLE ONLY hobby
+    ADD CONSTRAINT hobby_pkey PRIMARY KEY (hobby_id);
+
+
+--
+-- Name: orderline_pkey; Type: CONSTRAINT; Schema: public; Owner: siw_data; Tablespace: 
+--
+
+ALTER TABLE ONLY orderline
+    ADD CONSTRAINT orderline_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: orders_pkey; Type: CONSTRAINT; Schema: public; Owner: siw_data; Tablespace: 
+--
+
+ALTER TABLE ONLY orders
+    ADD CONSTRAINT orders_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: product_code_key; Type: CONSTRAINT; Schema: public; Owner: siw_data; Tablespace: 
+--
+
+ALTER TABLE ONLY product
+    ADD CONSTRAINT product_code_key UNIQUE (code);
+
+
+--
+-- Name: product_pkey; Type: CONSTRAINT; Schema: public; Owner: siw_data; Tablespace: 
+--
+
+ALTER TABLE ONLY product
+    ADD CONSTRAINT product_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: provider_pkey; Type: CONSTRAINT; Schema: public; Owner: siw_data; Tablespace: 
+--
+
+ALTER TABLE ONLY provider
+    ADD CONSTRAINT provider_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: fk24217fdea4fe4339; Type: FK CONSTRAINT; Schema: public; Owner: siw_data
+--
+
+ALTER TABLE ONLY customer
+    ADD CONSTRAINT fk24217fdea4fe4339 FOREIGN KEY (address_id) REFERENCES address(id);
+
+
+--
+-- Name: fk3848c11da730239; Type: FK CONSTRAINT; Schema: public; Owner: siw_data
+--
+
+ALTER TABLE ONLY contact_hobby_detail
+    ADD CONSTRAINT fk3848c11da730239 FOREIGN KEY (hobby_id) REFERENCES hobby(hobby_id);
+
+
+--
+-- Name: fk3848c11dda8543b9; Type: FK CONSTRAINT; Schema: public; Owner: siw_data
+--
+
+ALTER TABLE ONLY contact_hobby_detail
+    ADD CONSTRAINT fk3848c11dda8543b9 FOREIGN KEY (contact_id) REFERENCES contact(id);
+
+
+--
+-- Name: fk601774422367a9c2; Type: FK CONSTRAINT; Schema: public; Owner: siw_data
+--
+
+ALTER TABLE ONLY orderline
+    ADD CONSTRAINT fk601774422367a9c2 FOREIGN KEY (orders_id) REFERENCES orders(id);
+
+
+--
+-- Name: fk60177442ef825d59; Type: FK CONSTRAINT; Schema: public; Owner: siw_data
+--
+
+ALTER TABLE ONLY orderline
+    ADD CONSTRAINT fk60177442ef825d59 FOREIGN KEY (product_id) REFERENCES product(id);
+
+
+--
+-- Name: fk865d6e74da8543b9; Type: FK CONSTRAINT; Schema: public; Owner: siw_data
+--
+
+ALTER TABLE ONLY contact_tel_detail
+    ADD CONSTRAINT fk865d6e74da8543b9 FOREIGN KEY (contact_id) REFERENCES contact(id);
+
+
+--
+-- Name: fkc3df62e55002f6db; Type: FK CONSTRAINT; Schema: public; Owner: siw_data
+--
+
+ALTER TABLE ONLY orders
+    ADD CONSTRAINT fkc3df62e55002f6db FOREIGN KEY (customer_id) REFERENCES customer(id);
+
+
+--
+-- Name: fkc8fe6a11a4fe4339; Type: FK CONSTRAINT; Schema: public; Owner: siw_data
+--
+
+ALTER TABLE ONLY provider
+    ADD CONSTRAINT fkc8fe6a11a4fe4339 FOREIGN KEY (address_id) REFERENCES address(id);
+
+
+--
+-- Name: fkf6d5d4a12e2b08c4; Type: FK CONSTRAINT; Schema: public; Owner: siw_data
+--
+
+ALTER TABLE ONLY provider_product
+    ADD CONSTRAINT fkf6d5d4a12e2b08c4 FOREIGN KEY (products_id) REFERENCES product(id);
+
+
+--
+-- Name: fkf6d5d4a141b85daa; Type: FK CONSTRAINT; Schema: public; Owner: siw_data
+--
+
+ALTER TABLE ONLY provider_product
+    ADD CONSTRAINT fkf6d5d4a141b85daa FOREIGN KEY (providers_id) REFERENCES provider(id);
+
+
+--
+-- Name: public; Type: ACL; Schema: -; Owner: salvatore
+--
+
+REVOKE ALL ON SCHEMA public FROM PUBLIC;
+REVOKE ALL ON SCHEMA public FROM salvatore;
+GRANT ALL ON SCHEMA public TO salvatore;
+GRANT ALL ON SCHEMA public TO PUBLIC;
+
+
+--
+-- PostgreSQL database dump complete
+--
+

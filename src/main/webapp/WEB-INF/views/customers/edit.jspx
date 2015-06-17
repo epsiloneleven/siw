@@ -12,7 +12,7 @@
     <spring:message code="label_customer_first_name" var="labelCustomerFirstName"/>
     <spring:message code="label_customer_last_name" var="labelCustomerLastName"/>
     <spring:message code="label_customer_birth_date" var="labelCustomerBirthDate"/>
-  
+  	<spring:message code="label_customer_email" var="labelCustomerEmail"/>
   	<spring:message code="label_button_save" var="labelButtonSave"/>
     <spring:message code="label_button_reset" var="labelButtonReset"/>
     
@@ -61,6 +61,17 @@
 	            <form:errors path="lastName" cssClass="error" />
 	        </span>
 		</div>
+		
+		 <div class="form-group">
+	        <form:label path="email">
+	            ${labelCustomerEmail}* 
+	        </form:label>
+	        <form:input path="email" class="form-control" />
+	        <span class="label label-danger">
+	            <form:errors path="email" cssClass="error" />
+	        </span>
+		</div>
+		
 		<div class="form-group">
 	        <form:label path="dateOfBirth">
 	            ${labelCustomerBirthDate}

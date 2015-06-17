@@ -23,23 +23,23 @@
 
     <h1>${labelCustomerInfo}</h1>
 
-    <div id="customerInfo">
+    <div class="tab-content">
 
         <c:if test="${not empty message}">
             <div id="message" class="${message.type}">${message.message}</div>
         </c:if>
 
-        <table>
+        <table class="table table-striped table-bordered">
             <tr>
-                <td>${labelCustomerFirstName}</td>
+                <th>${labelCustomerFirstName}</th>
                 <td>${customer.firstName}</td>
             </tr>
             <tr>
-                <td>${labelCustomerLastName}</td>
+                <th>${labelCustomerLastName}</th>
                 <td>${customer.lastName}</td>
             </tr>   
             <tr>
-                <td>${labelCustomerBirthDate}</td>
+                <th>${labelCustomerBirthDate}</th>
                 <td><joda:format value="${customer.dateOfBirth}" pattern="${dateFormatPattern}"/></td>
             </tr>
             <!-- 
@@ -54,7 +54,10 @@
              -->                                                                                                         
         </table>         
        
-        <a href="${editCustomerUrl}/${customer.id}?form">${labelCustomerUpdate}</a>     
+       <BUTTON style="margin-bottom: 20px; height: 34px;width: 80px;" class="btn btn-warning"><a href="${editCustomerUrl}/${customer.id}?form">${labelCustomerUpdate}</a></BUTTON>  
+       
+       
+         
         <form:form modelAttribute="customer" id="customerDeleteForm" method="delete" enctype="multipart/form-data">
         	<form:hidden path="id" />
         		<button type="submit" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" onClick="return confirm('sure?')">

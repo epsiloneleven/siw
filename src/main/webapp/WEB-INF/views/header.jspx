@@ -20,6 +20,14 @@
 	<spring:message code="menu_add_customer" var="menuAddCustomer"/> 
 	<spring:message code="menu_add_product" var="menuAddProduct"/> 
 	
+	
+	<spring:url value="/customers" var="customersUrl"/>
+	<spring:message code="menu_customers" var="menuCustomers"/>
+	
+	<spring:url value="/orders" var="ordersUrl"/>
+	<spring:message code="label_order_list_admin" var="labelOrderListAdmin"/>
+	
+	
 	<spring:message code="cart_label" var="cartLabel"/> 
 	<spring:message code="admin_label" var="adminLabel"/> 
 	<spring:message code="sign_in_label" var="signInLabel"/>
@@ -56,6 +64,12 @@
 		              		<li role="presentation">
 		              			<a role="menuitem" tabindex="-1" href="${addProductUrl}">${menuAddProduct}</a>
 		              		</li>
+		              		<li role="presentation">
+		              			<a role="menuitem" tabindex="-1" href="${customersUrl}">${menuCustomers}</a>
+		              		</li>
+		              		<li role="presentation">
+		              			<a role="menuitem" tabindex="-1" href="${ordersUrl}">${labelOrderListAdmin}</a>
+		              		</li>
 		              	</ul>
 	              		
 	              	</sec:authorize>
@@ -82,7 +96,7 @@
 							  <input type="text" name="j_username" placeholder="User Name" class="form-control"/>
 						</div>
 						<div class="form-group">
-							  <input type="text" name="j_password" placeholder="Password" class="form-control"/>
+							  <input type="password" name="j_password" placeholder="Password" class="form-control"/>
 						</div>
 						
 						<button type="submit" value="Login" class="btn btn-success">${signInLabel}</button>
