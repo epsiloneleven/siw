@@ -1,0 +1,50 @@
+CASO D'USO UC1:
+
+L'Utente non registrato accede alla home page : /siw-web/ ; la lista dei prodotti e' mostrata nella home page.
+
+L'Utente non registrato clicca sul link "Catalog" e va alla pagina /siw-web-products/
+
+Dalla lista dei prodotti l'utente puo' cliccare sul nome del prodotto che contiene il link alla pagina di dettaglio del prodotto.
+
+Dalla pagina di dettaglio del prodotto l'utente puo tornare alla lista dei prodotti cliccando sul link "Catalog" o usando il tasto "back" del browser.
+
+CASO D'USO UC2
+
+L'utente registrato clicca sul nome di un prodotto dalla lista dei prodotti; il nome di un prodotto contiene un hyperlink alla pagina di dettagli del prodotto secondo il paradigma REST (eg: /products/6 ).
+
+L'utente registrato ottiene la pagina di dettaglio del prodotto; dalla pagina di dettaglio del prodottopuo' quindi scegliere la quantita' del prodotto desiderata attraverso il dropdown "Select Quantity" ; una volta impostata la quantita' , l'utente registrato puo aggiungere il prodotto al carrello cliccando sul bottone "Add To Cart"
+
+Dopo aver cliccato su "Add To Cart" l'utente e' redirected sulla pagina che mostra i dettagli del suo ordine, ossia tutti gli articoli presenti nel suo carrello.
+
+Per ogni item nel carrello, l'utente registrato puo scegliere se:
+
+-Modificare la quantita' , attraverso il dropdown "Select Quantity"
+
+-Rimuovere l'item dal carrello, attraverso il bottone "Remove From Cart"
+
+Dalla pagina di dettaglio dell'ordine l'utente registrato puo inoltre:
+
+-Completare l'ordine, cliccando il bottone "Checkout"
+
+-Cancellare l'ordine, rimuovendo quindi ogni item, cliccando il bottone "Delete Order"
+
+
+CASO D'USO UC3:
+
+L'utente registrato visita la pagina /siw-web/orders e ottiene la lista dei propri ordini.
+
+L'utente registrato clicca sul link "My Orders" dal menu principale e ottiene la lista dei proprio ordini.
+
+Dalla lista degli ordini, l'utente registrato clicca su un ordine e ottiene la pagina di dettaglio.
+
+L'utente torna alla lista degli ordini usando il tasto "back" del browser, o cliccando su "My Orders" dal menu principale o digitando la url /siw-web/orders.
+
+CASO D'USO UC4:
+
+L'utente registrato con ruolo amministrativo accede alla pagina di creazione di un nuovo prodotto digitando la URL: siw-web/products?form
+
+L'utente registrato con ruolo amministrativo clicca su "Admin -> New Product" dal menu principale.
+
+L'utente compila il form e clicca su "Save"
+
+
