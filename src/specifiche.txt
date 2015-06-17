@@ -1,3 +1,22 @@
+Brief Description of the technology stack used for the development of this application:
+
+Backend DBMS: PostgreSQL
+
+Backend Language: Java
+
+Server Side Frameworks: Spring MVC, Spring Security
+
+Client Side Technologies:
+	Javascritp: JQuery, JQueryUI
+	CSS: Bootstrap
+
+Deployment information:
+	Operating System: Ubuntu 14.4 on Amazon Cloud
+	Servlet Container: Tomcat 7
+
+Current IP of the server is:  http://52.16.112.110:8080/siw-web
+
+
 CASO D'USO UC1:
 
 L'Utente non registrato accede alla home page : /siw-web/ ; la lista dei prodotti e' mostrata nella home page.
